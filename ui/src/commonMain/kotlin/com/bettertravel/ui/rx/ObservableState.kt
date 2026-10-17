@@ -25,3 +25,13 @@ fun <T> Observable<T>.collectAsState(initial: T): State<T> {
 fun <T> BehaviorObservable<T>.collectAsState(): State<T> {
     return collectAsState(initial = value)
 }
+
+@Composable
+fun <T> BehaviorObservable<T>.collectAsStateImmediately(): State<T> {
+    val state = remember { mutableStateOf(value) }
+    DisposableEffect(this) {
+        val disposable = subscribe(onNext = { value -> state.value = value })
+        onDispose { disposable.dispose() }
+    }
+    return state
+}

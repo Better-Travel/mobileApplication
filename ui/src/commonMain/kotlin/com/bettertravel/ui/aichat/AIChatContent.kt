@@ -25,6 +25,7 @@ import com.bettertravel.ui.designsystem.preview.BtPreview
 import com.bettertravel.ui.designsystem.theme.BtSpacing
 import com.bettertravel.ui.preview.PreviewAIChat
 import com.bettertravel.ui.rx.collectAsState
+import com.bettertravel.ui.rx.collectAsStateImmediately
 
 val LocalMicModifier = compositionLocalOf<Modifier> { Modifier }
 
@@ -36,7 +37,7 @@ fun AIChatContent(
     val items by viewModel.items.collectAsState()
     val loading by viewModel.loading.collectAsState()
     val stub by viewModel.stub.collectAsState(initial = null)
-    val inputText by viewModel.inputViewModel.text.collectAsState()
+    val inputText by viewModel.inputViewModel.text.collectAsStateImmediately()
     val canSend by viewModel.inputViewModel.canSend.collectAsState(initial = false)
     val placeholder by viewModel.inputViewModel.placeholder.collectAsState(initial = "")
     val listState = rememberLazyListState()
