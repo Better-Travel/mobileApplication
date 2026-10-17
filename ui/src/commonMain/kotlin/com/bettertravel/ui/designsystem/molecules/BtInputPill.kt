@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bettertravel.ui.designsystem.atoms.BtIconButton
@@ -38,6 +41,8 @@ fun BtInputPill(
     onVoice: () -> Unit,
     modifier: Modifier = Modifier,
     onAdd: (() -> Unit)? = null,
+    canSend: Boolean = true,
+    voiceModifier: Modifier = Modifier,
 ) {
     val colors = BetterTravelTheme.colors
     val typography = BetterTravelTheme.typography
@@ -72,12 +77,15 @@ fun BtInputPill(
                 textStyle = typography.bodySmall.copy(color = colors.textPrimary),
                 cursorBrush = SolidColor(colors.primary),
                 singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                keyboardActions = KeyboardActions(onSend = { if (canSend) onSend() }),
                 modifier = Modifier.fillMaxWidth(),
             )
         }
         BtIconButton(
             Res.drawable.ic_mic,
             onClick = onVoice,
+            modifier = voiceModifier,
             style = BtIconButtonStyle.Tonal,
             size = 36.dp,
             iconSize = 16.dp,
@@ -88,6 +96,7 @@ fun BtInputPill(
             style = BtIconButtonStyle.Brand,
             size = 36.dp,
             iconSize = 16.dp,
+            enabled = canSend,
         )
     }
 }

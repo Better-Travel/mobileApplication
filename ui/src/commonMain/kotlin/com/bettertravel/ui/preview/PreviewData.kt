@@ -8,7 +8,6 @@ import com.badoo.reaktive.observable.observableOf
 import com.badoo.reaktive.subject.behavior.BehaviorObservable
 import com.badoo.reaktive.subject.behavior.BehaviorSubject
 import com.bettertravel.domain.routes.Route
-import com.bettertravel.presentation.chat.ChatViewModel
 import com.bettertravel.presentation.discover.DiscoverViewModel
 import com.bettertravel.presentation.memories.MemoriesViewModel
 import com.bettertravel.presentation.navigation.MainComponent
@@ -45,15 +44,6 @@ internal class PreviewDiscoverViewModel : DiscoverViewModel {
     override val inputPlaceholder: String = "Tell BetterTravel where & how long..."
 
     override fun openChat() {
-    }
-}
-
-internal class PreviewChatViewModel : ChatViewModel {
-    override val title: String = "BetterTravel"
-    override val status: String = "with Betty"
-    override val emptyMessage: String = "Tell Betty where you are and how long you have. Chat is coming soon."
-
-    override fun back() {
     }
 }
 

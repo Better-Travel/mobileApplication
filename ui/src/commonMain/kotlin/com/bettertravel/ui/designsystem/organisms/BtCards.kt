@@ -30,6 +30,7 @@ import com.bettertravel.ui.designsystem.atoms.BtIconButton
 import com.bettertravel.ui.designsystem.atoms.BtIconButtonStyle
 import com.bettertravel.ui.designsystem.atoms.BtMarkerStyle
 import com.bettertravel.ui.designsystem.atoms.BtNumberMarker
+import com.bettertravel.ui.designsystem.atoms.BtPulsingMic
 import com.bettertravel.ui.designsystem.preview.BtPreview
 import com.bettertravel.ui.designsystem.theme.BetterTravelTheme
 import com.bettertravel.ui.designsystem.theme.BtElevation
@@ -319,10 +320,12 @@ data class BtTranscriptEntry(
 
 @Composable
 fun BtVoiceControlDock(
+    isListening: Boolean,
     onKeyboard: () -> Unit,
     onMic: () -> Unit,
     onEnd: () -> Unit,
     modifier: Modifier = Modifier,
+    micModifier: Modifier = Modifier,
 ) {
     val colors = BetterTravelTheme.colors
     Row(
@@ -339,13 +342,7 @@ fun BtVoiceControlDock(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         BtIconButton(Res.drawable.ic_book_open, onClick = onKeyboard, size = 48.dp)
-        BtIconButton(
-            Res.drawable.ic_mic,
-            onClick = onMic,
-            style = BtIconButtonStyle.Hero,
-            size = 64.dp,
-            iconSize = 28.dp,
-        )
+        BtPulsingMic(isListening = isListening, onClick = onMic, modifier = micModifier)
         BtIconButton(Res.drawable.ic_end_session, onClick = onEnd, size = 48.dp)
     }
 }
@@ -437,6 +434,6 @@ private fun BtTranscriptCardPreview() {
 @Composable
 private fun BtVoiceControlDockPreview() {
     BtPreview {
-        BtVoiceControlDock(onKeyboard = {}, onMic = {}, onEnd = {})
+        BtVoiceControlDock(isListening = true, onKeyboard = {}, onMic = {}, onEnd = {})
     }
 }

@@ -2,7 +2,7 @@ package com.bettertravel.presentation.navigation
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import com.bettertravel.presentation.chat.ChatViewModel
+import com.bettertravel.presentation.aichat.AIChatViewModel
 
 interface RootComponent {
     val stack: Value<ChildStack<*, Child>>
@@ -13,7 +13,7 @@ interface RootComponent {
         ) : Child
 
         class Chat(
-            val viewModel: ChatViewModel,
+            val viewModel: AIChatViewModel,
         ) : Child
     }
 }

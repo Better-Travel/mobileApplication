@@ -16,13 +16,42 @@ interface StringRepository {
     val discoverInputPlaceholder: String
     val chatTitle: String
     val chatStatus: String
-    val chatEmptyMessage: String
     val routeTitle: String
     val routeEmptyMessage: String
     val memoriesTitle: String
     val memoriesEmptyMessage: String
     val drawerTitle: String
     val drawerMessage: String
+    val chatEmptyMessage: String
+    val chatInputPlaceholder: String
+    val chatDateToday: String
+    val chatEmptyTitle: String
+    val chatEmptySuggestionPlan: String
+    val chatEmptySuggestionCafe: String
+    val chatEmptySuggestionScenic: String
+    val chatErrorTitle: String
+    val chatErrorMessage: String
+    val chatRetry: String
+    val chatQuickRepliesTitle: String
+    val chatQuickReplyShorter: String
+    val chatQuickReplyCafe: String
+    val chatQuickReplyStairs: String
+    val chatRoutePreview: String
+    val chatRouteStart: String
+    val unitHourShort: String
+    val unitMinuteShort: String
+    val unitKilometerShort: String
+    val voiceListening: String
+    val voicePaused: String
+    val voiceTranscriptTitle: String
+    val voiceLive: String
+    val voiceSpeakerYou: String
+    val voiceSpeakerBetty: String
+    val voiceTranscriptEmpty: String
+    val voiceSuggestionDistance: String
+    val voiceSuggestionAddToRoute: String
+    val voiceSuggestionHistory: String
+    val voiceClose: String
 }
 
 class GeneratedStringRepository(
@@ -140,14 +169,6 @@ class GeneratedStringRepository(
             }
         }
 
-    override val chatEmptyMessage: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Dites à Betty où vous êtes et de combien de temps vous disposez. Le chat arrive bientôt."
-                else -> "Tell Betty where you are and how long you have. Chat is coming soon."
-            }
-        }
-
     override val routeTitle: String
         get() {
             return when (languageCode()) {
@@ -193,6 +214,246 @@ class GeneratedStringRepository(
             return when (languageCode()) {
                 "fr" -> "Votre profil, vos villes et vos réglages apparaîtront ici."
                 else -> "Your profile, cities and settings will appear here."
+            }
+        }
+
+    override val chatEmptyMessage: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Dites à Betty où vous êtes et combien de temps vous avez, elle planifiera une balade pour vous."
+                else -> "Tell Betty where you are and how long you have, and she will plan a walk for you."
+            }
+        }
+
+    override val chatInputPlaceholder: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Demandez n'importe quoi à Betty ou ajustez l'itinéraire..."
+                else -> "Ask Betty anything or adjust route..."
+            }
+        }
+
+    override val chatDateToday: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Aujourd'hui"
+                else -> "Today"
+            }
+        }
+
+    override val chatEmptyTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Demandez n'importe quoi à Betty"
+                else -> "Ask Betty anything"
+            }
+        }
+
+    override val chatEmptySuggestionPlan: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Planifier 3 heures à Varsovie"
+                else -> "Plan 3 hours in Warsaw"
+            }
+        }
+
+    override val chatEmptySuggestionCafe: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Trouver un café tranquille à proximité"
+                else -> "Find a quiet café nearby"
+            }
+        }
+
+    override val chatEmptySuggestionScenic: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Balade pittoresque avec sites historiques"
+                else -> "Scenic walk with historic spots"
+            }
+        }
+
+    override val chatErrorTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Betty a perdu la piste"
+                else -> "Betty lost the trail"
+            }
+        }
+
+    override val chatErrorMessage: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Une erreur est survenue. Vérifiez votre connexion et réessayez."
+                else -> "Something went wrong. Check your connection and try again."
+            }
+        }
+
+    override val chatRetry: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Réessayer"
+                else -> "Try again"
+            }
+        }
+
+    override val chatQuickRepliesTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Ajustements suggérés"
+                else -> "Suggested adjustments"
+            }
+        }
+
+    override val chatQuickReplyShorter: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Raccourcir"
+                else -> "Make it shorter"
+            }
+        }
+
+    override val chatQuickReplyCafe: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Ajouter un café"
+                else -> "Add a café stop"
+            }
+        }
+
+    override val chatQuickReplyStairs: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Éviter les escaliers"
+                else -> "Avoid stairs"
+            }
+        }
+
+    override val chatRoutePreview: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Voir sur la carte"
+                else -> "Preview on map"
+            }
+        }
+
+    override val chatRouteStart: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Commencer la balade"
+                else -> "Start walk"
+            }
+        }
+
+    override val unitHourShort: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "h"
+                else -> "h"
+            }
+        }
+
+    override val unitMinuteShort: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "min"
+                else -> "m"
+            }
+        }
+
+    override val unitKilometerShort: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "km"
+                else -> "km"
+            }
+        }
+
+    override val voiceListening: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Betty vous écoute..."
+                else -> "Betty is listening..."
+            }
+        }
+
+    override val voicePaused: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Touchez le micro pour parler"
+                else -> "Tap the mic to talk"
+            }
+        }
+
+    override val voiceTranscriptTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Transcription en direct"
+                else -> "Real-time transcript"
+            }
+        }
+
+    override val voiceLive: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "En direct"
+                else -> "Live"
+            }
+        }
+
+    override val voiceSpeakerYou: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Vous"
+                else -> "You"
+            }
+        }
+
+    override val voiceSpeakerBetty: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Betty"
+                else -> "Betty"
+            }
+        }
+
+    override val voiceTranscriptEmpty: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Dites quelque chose ou touchez une suggestion ci-dessous."
+                else -> "Say something or tap a suggestion below."
+            }
+        }
+
+    override val voiceSuggestionDistance: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "C'est à quelle distance ?"
+                else -> "How far is it?"
+            }
+        }
+
+    override val voiceSuggestionAddToRoute: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Ajouter à l'itinéraire"
+                else -> "Add to route"
+            }
+        }
+
+    override val voiceSuggestionHistory: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Lire l'histoire"
+                else -> "Read history"
+            }
+        }
+
+    override val voiceClose: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Retour au chat"
+                else -> "Back to chat"
             }
         }
 }

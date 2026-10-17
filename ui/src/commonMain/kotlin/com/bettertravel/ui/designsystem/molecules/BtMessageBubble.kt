@@ -63,7 +63,7 @@ fun BtUserMessage(
 
 @Composable
 fun BtAssistantMessage(
-    timestamp: String,
+    timestamp: String?,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -87,12 +87,14 @@ fun BtAssistantMessage(
             ) {
                 content()
             }
-            Text(
-                text = timestamp,
-                style = BetterTravelTheme.typography.labelSmall,
-                color = colors.textTertiary,
-                modifier = Modifier.padding(start = BtSpacing.s),
-            )
+            if (timestamp != null) {
+                Text(
+                    text = timestamp,
+                    style = BetterTravelTheme.typography.labelSmall,
+                    color = colors.textTertiary,
+                    modifier = Modifier.padding(start = BtSpacing.s),
+                )
+            }
         }
     }
 }

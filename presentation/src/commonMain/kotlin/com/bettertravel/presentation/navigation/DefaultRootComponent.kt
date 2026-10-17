@@ -8,8 +8,8 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.bettertravel.presentation.ViewModelContext
-import com.bettertravel.presentation.chat.ChatViewModel
-import com.bettertravel.presentation.chat.ChatViewModelImpl
+import com.bettertravel.presentation.aichat.AIChatViewModel
+import com.bettertravel.presentation.aichat.AIChatViewModelImpl
 import kotlinx.serialization.Serializable
 
 class DefaultRootComponent(
@@ -42,12 +42,15 @@ class DefaultRootComponent(
             }
 
             Config.Chat -> {
+                // TODO: open the Route tab with the suggested route once the Route screen is built
                 val parameters =
-                    ChatViewModel.Parameters(
+                    AIChatViewModel.Parameters(
                         context = ViewModelContext(context),
                         onBack = { navigation.pop() },
+                        onPreviewRoute = { },
+                        onStartRoute = { },
                     )
-                RootComponent.Child.Chat(ChatViewModelImpl(parameters))
+                RootComponent.Child.Chat(AIChatViewModelImpl(parameters))
             }
         }
     }

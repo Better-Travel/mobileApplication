@@ -22,9 +22,9 @@ Location: `ui/src/commonMain/kotlin/com/bettertravel/ui/designsystem/`. Source: 
 | Package | Content |
 |---|---|
 | `theme` | `BetterTravelTheme`, `BtColors`, `BtGradients`, `BtTypography`, `BtSpacing`, `BtShapes`, `BtIconSize`, `BtElevation` and `btShadow` |
-| `atoms` | `BtIcon`, `BtDot`, `BtAvatar`, `BtBetty`, `BtButton`, `BtIconButton`, `BtFilterChip`, `BtQuickReplyChip`, `BtBadge`, `BtDurationTag`, `BtRating`, dividers, `BtProgressBar`, `BtSwitch`, `BtDragHandle`, `BtNumberMarker` |
-| `molecules` | top bars (home, chat, detail), `BtTabBar`, `BtInputPill`, chat bubbles, `BtStatTile`, `BtStatsStrip`, `BtSectionHeader`, `BtInfoRow`, `BtSettingRow`, `BtWaypointCard`, `BtCityCard`, `BtInsightCard`, `BtSummaryBanner`, `BtXpBanner`, `BtCompanionPrompt`, `BtAudioGuideWidget` |
-| `organisms` | `BtBottomSheet`, `BtItinerarySheet`, `BtDestinationCard`, `BtEmbeddedRouteCard`, `BtTurnGuidanceCard`, `BtMemoryCard`, `BtMetricsStrip`, `BtJournalNote`, `BtTranscriptCard`, `BtVoiceControlDock`, `BtMapPlaceholder` |
+| `atoms` | `BtIcon`, `BtDot`, `BtAvatar`, `BtBetty`, `BtButton`, `BtIconButton`, `BtFilterChip`, `BtQuickReplyChip`, `BtBadge`, `BtDurationTag`, `BtRating`, dividers, `BtProgressBar`, `BtSwitch`, `BtDragHandle`, `BtNumberMarker`, `BtPulsingMic`, `BtTypingIndicator` |
+| `molecules` | top bars (home, chat, detail), `BtTabBar`, `BtInputPill`, chat bubbles, `BtStatTile`, `BtStatsStrip`, `BtSectionHeader`, `BtInfoRow`, `BtSettingRow`, `BtWaypointCard`, `BtCityCard`, `BtInsightCard`, `BtSummaryBanner`, `BtXpBanner`, `BtCompanionPrompt`, `BtAudioGuideWidget`, `BtPromptPill`, `BtEmptyState`, `BtDateDivider`, `BtQuickReplies`, `BtVoiceSuggestionChip`, `BtLiveStatusBadge`, `BtVoiceTopBar` |
+| `organisms` | `BtBottomSheet`, `BtItinerarySheet`, `BtDestinationCard`, `BtEmbeddedRouteCard`, `BtTurnGuidanceCard`, `BtMemoryCard`, `BtMetricsStrip`, `BtJournalNote`, `BtTranscriptCard`, `BtVoiceControlDock`, `BtMapPlaceholder`, `BtVoiceStage`, `BtDrawer` |
 | `layout` | `BtSafeArea`: applies `WindowInsets.safeDrawing` once, at the top of `RootContent` |
 | `preview` | `BtPreview` wrapper used by previews |
 

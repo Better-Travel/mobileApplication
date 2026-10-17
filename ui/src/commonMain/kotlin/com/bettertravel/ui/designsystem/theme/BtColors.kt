@@ -105,6 +105,10 @@ object BtGradients {
         Brush.verticalGradient(
             listOf(Color(0xFFFAF8FF), Color(0xFFF2F3FF), Color(0xFFEAEDFF)),
         )
+    val voice: Brush =
+        Brush.verticalGradient(
+            listOf(Color(0xFFF2F8FD), Color(0xFFF8FAFC), Color(0xFFEFF6FB)),
+        )
     val halo: Brush =
         Brush.radialGradient(
             listOf(Color(0x80BADDFF), Color(0x40FED7E2), Color(0x00FED7E2)),
