@@ -105,6 +105,10 @@ object BtGradients {
         Brush.verticalGradient(
             listOf(Color(0xFFFAF8FF), Color(0xFFF2F3FF), Color(0xFFEAEDFF)),
         )
+    val halo: Brush =
+        Brush.radialGradient(
+            listOf(Color(0x80BADDFF), Color(0x40FED7E2), Color(0x00FED7E2)),
+        )
     val warmAura: Brush =
         Brush.radialGradient(
             listOf(Color(0x66FE9D7C), Color(0x66FFDF9B), Color(0x004EA8DE)),

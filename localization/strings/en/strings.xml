@@ -4,4 +4,21 @@
     <string name="routes_list_empty">No routes yet</string>
     <string name="routes_list_error">Something went wrong while loading your routes</string>
     <string name="routes_list_retry">Try again</string>
+    <string name="app_name">BetterTravel</string>
+    <string name="tab_discover">Discover</string>
+    <string name="tab_route">Route</string>
+    <string name="tab_memories">Memories</string>
+    <string name="discover_title_prefix">Let's plan your trip</string>
+    <string name="discover_title_accent">Together</string>
+    <string name="discover_subtitle">Meet Betty, your pocket-sized explorer ready to curate custom journeys in seconds.</string>
+    <string name="discover_input_placeholder">Tell BetterTravel where &amp; how long...</string>
+    <string name="chat_title">BetterTravel</string>
+    <string name="chat_status">with Betty</string>
+    <string name="chat_empty_message">Tell Betty where you are and how long you have. Chat is coming soon.</string>
+    <string name="route_title">Route</string>
+    <string name="route_empty_message">Your route will appear here once Betty has planned it.</string>
+    <string name="memories_title">Memories</string>
+    <string name="memories_empty_message">Your saved walks will appear here.</string>
+    <string name="drawer_title">Menu</string>
+    <string name="drawer_message">Your profile, cities and settings will appear here.</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontSynthesis
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -237,5 +238,35 @@ private fun createTypography(
                 lineHeight = 18.sp,
                 letterSpacing = 0.12.sp,
             ),
+    )
+}
+
+private fun TextStyle.noSynthesis(): TextStyle {
+    return copy(fontSynthesis = FontSynthesis.None)
+}
+
+private fun BtTypography.withoutSynthesis(): BtTypography {
+    return copy(
+        display = display.noSynthesis(),
+        headlineLarge = headlineLarge.noSynthesis(),
+        headline = headline.noSynthesis(),
+        headlineSemiBold = headlineSemiBold.noSynthesis(),
+        appTitle = appTitle.noSynthesis(),
+        title = title.noSynthesis(),
+        titleSmall = titleSmall.noSynthesis(),
+        button = button.noSynthesis(),
+        bodyLarge = bodyLarge.noSynthesis(),
+        body = body.noSynthesis(),
+        bodyStrong = bodyStrong.noSynthesis(),
+        bodySmall = bodySmall.noSynthesis(),
+        bodySmallMedium = bodySmallMedium.noSynthesis(),
+        bodySmallItalic = bodySmallItalic,
+        label = label.noSynthesis(),
+        labelCaps = labelCaps.noSynthesis(),
+        labelMedium = labelMedium.noSynthesis(),
+        labelSmall = labelSmall.noSynthesis(),
+        eyebrow = eyebrow.noSynthesis(),
+        metric = metric.noSynthesis(),
+        mono = mono.noSynthesis(),
     )
 }

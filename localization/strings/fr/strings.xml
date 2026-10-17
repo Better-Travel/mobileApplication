@@ -4,4 +4,21 @@
     <string name="routes_list_empty">Aucun itinéraire pour le moment</string>
     <string name="routes_list_error">Une erreur est survenue lors du chargement de vos itinéraires</string>
     <string name="routes_list_retry">Réessayer</string>
+    <string name="app_name">BetterTravel</string>
+    <string name="tab_discover">Découvrir</string>
+    <string name="tab_route">Itinéraire</string>
+    <string name="tab_memories">Souvenirs</string>
+    <string name="discover_title_prefix">Planifions votre voyage</string>
+    <string name="discover_title_accent">Ensemble</string>
+    <string name="discover_subtitle">Voici Betty, votre explorateur de poche, prêt à créer des parcours sur mesure en quelques secondes.</string>
+    <string name="discover_input_placeholder">Dites à BetterTravel où et combien de temps...</string>
+    <string name="chat_title">BetterTravel</string>
+    <string name="chat_status">avec Betty</string>
+    <string name="chat_empty_message">Dites à Betty où vous êtes et de combien de temps vous disposez. Le chat arrive bientôt.</string>
+    <string name="route_title">Itinéraire</string>
+    <string name="route_empty_message">Votre itinéraire apparaîtra ici dès que Betty l'aura planifié.</string>
+    <string name="memories_title">Souvenirs</string>
+    <string name="memories_empty_message">Vos balades enregistrées apparaîtront ici.</string>
+    <string name="drawer_title">Menu</string>
+    <string name="drawer_message">Votre profil, vos villes et vos réglages apparaîtront ici.</string>
 </resources>

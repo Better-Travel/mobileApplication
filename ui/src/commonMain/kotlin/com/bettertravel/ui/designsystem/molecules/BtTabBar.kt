@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bettertravel.ui.designsystem.atoms.BtIcon
@@ -28,7 +30,7 @@ import com.bettertravel.ui.designsystem.theme.btShadow
 import com.bettertravel.ui.resources.Res
 import com.bettertravel.ui.resources.ic_tab_discover
 import com.bettertravel.ui.resources.ic_tab_memories
-import com.bettertravel.ui.resources.ic_tab_route
+import com.bettertravel.ui.resources.ic_tab_route_map
 import org.jetbrains.compose.resources.DrawableResource
 
 data class BtTab(
@@ -80,13 +82,20 @@ private fun BtTabItem(
             Modifier
                 .heightIn(min = 56.dp)
                 .widthIn(min = 56.dp)
-                .clip(CircleShape)
-                .clickable(role = Role.Tab, onClick = onClick),
+                .clip(RoundedCornerShape(20.dp))
+                .clickable(role = Role.Tab, onClick = onClick)
+                .padding(horizontal = BtSpacing.s),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterVertically),
     ) {
         BtIcon(tab.icon, tint = tint, size = 20.dp)
-        Text(text = tab.label, style = BetterTravelTheme.typography.labelMedium, color = tint)
+        Text(
+            text = tab.label,
+            style = BetterTravelTheme.typography.labelMedium,
+            color = tint,
+            softWrap = false,
+            overflow = TextOverflow.Visible,
+        )
     }
 }
 
@@ -98,7 +107,7 @@ private fun BtTabBarPreview() {
             tabs =
                 listOf(
                     BtTab("Discover", Res.drawable.ic_tab_discover),
-                    BtTab("Route", Res.drawable.ic_tab_route),
+                    BtTab("Route", Res.drawable.ic_tab_route_map),
                     BtTab("Memories", Res.drawable.ic_tab_memories),
                 ),
             selectedIndex = 1,
@@ -112,7 +121,7 @@ private fun BtTabBarPreview() {
 private fun BtTabItemPreview() {
     BtPreview {
         Row(horizontalArrangement = Arrangement.spacedBy(BtSpacing.l)) {
-            BtTabItem(BtTab("Route", Res.drawable.ic_tab_route), selected = true, onClick = {})
+            BtTabItem(BtTab("Route", Res.drawable.ic_tab_route_map), selected = true, onClick = {})
             BtTabItem(BtTab("Memories", Res.drawable.ic_tab_memories), selected = false, onClick = {})
         }
     }

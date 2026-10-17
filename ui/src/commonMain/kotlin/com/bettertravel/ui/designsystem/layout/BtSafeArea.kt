@@ -9,16 +9,17 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import com.bettertravel.ui.designsystem.preview.BtPreview
 import com.bettertravel.ui.designsystem.theme.BetterTravelTheme
+import com.bettertravel.ui.designsystem.theme.BtGradients
 
 @Composable
 fun BtSafeArea(
     modifier: Modifier = Modifier,
     insets: WindowInsets = WindowInsets.safeDrawing,
-    background: Color = BetterTravelTheme.colors.background,
+    background: Brush = BtGradients.page,
     content: @Composable () -> Unit,
 ) {
     Box(

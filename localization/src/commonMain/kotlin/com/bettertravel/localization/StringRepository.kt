@@ -6,6 +6,23 @@ interface StringRepository {
     val routesListEmpty: String
     val routesListError: String
     val routesListRetry: String
+    val appName: String
+    val tabDiscover: String
+    val tabRoute: String
+    val tabMemories: String
+    val discoverTitlePrefix: String
+    val discoverTitleAccent: String
+    val discoverSubtitle: String
+    val discoverInputPlaceholder: String
+    val chatTitle: String
+    val chatStatus: String
+    val chatEmptyMessage: String
+    val routeTitle: String
+    val routeEmptyMessage: String
+    val memoriesTitle: String
+    val memoriesEmptyMessage: String
+    val drawerTitle: String
+    val drawerMessage: String
 }
 
 class GeneratedStringRepository(
@@ -40,6 +57,142 @@ class GeneratedStringRepository(
             return when (languageCode()) {
                 "fr" -> "Réessayer"
                 else -> "Try again"
+            }
+        }
+
+    override val appName: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "BetterTravel"
+                else -> "BetterTravel"
+            }
+        }
+
+    override val tabDiscover: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Découvrir"
+                else -> "Discover"
+            }
+        }
+
+    override val tabRoute: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Itinéraire"
+                else -> "Route"
+            }
+        }
+
+    override val tabMemories: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Souvenirs"
+                else -> "Memories"
+            }
+        }
+
+    override val discoverTitlePrefix: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Planifions votre voyage"
+                else -> "Let's plan your trip"
+            }
+        }
+
+    override val discoverTitleAccent: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Ensemble"
+                else -> "Together"
+            }
+        }
+
+    override val discoverSubtitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Voici Betty, votre explorateur de poche, prêt à créer des parcours sur mesure en quelques secondes."
+                else -> "Meet Betty, your pocket-sized explorer ready to curate custom journeys in seconds."
+            }
+        }
+
+    override val discoverInputPlaceholder: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Dites à BetterTravel où et combien de temps..."
+                else -> "Tell BetterTravel where & how long..."
+            }
+        }
+
+    override val chatTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "BetterTravel"
+                else -> "BetterTravel"
+            }
+        }
+
+    override val chatStatus: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "avec Betty"
+                else -> "with Betty"
+            }
+        }
+
+    override val chatEmptyMessage: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Dites à Betty où vous êtes et de combien de temps vous disposez. Le chat arrive bientôt."
+                else -> "Tell Betty where you are and how long you have. Chat is coming soon."
+            }
+        }
+
+    override val routeTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Itinéraire"
+                else -> "Route"
+            }
+        }
+
+    override val routeEmptyMessage: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Votre itinéraire apparaîtra ici dès que Betty l'aura planifié."
+                else -> "Your route will appear here once Betty has planned it."
+            }
+        }
+
+    override val memoriesTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Souvenirs"
+                else -> "Memories"
+            }
+        }
+
+    override val memoriesEmptyMessage: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Vos balades enregistrées apparaîtront ici."
+                else -> "Your saved walks will appear here."
+            }
+        }
+
+    override val drawerTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Menu"
+                else -> "Menu"
+            }
+        }
+
+    override val drawerMessage: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Votre profil, vos villes et vos réglages apparaîtront ici."
+                else -> "Your profile, cities and settings will appear here."
             }
         }
 }

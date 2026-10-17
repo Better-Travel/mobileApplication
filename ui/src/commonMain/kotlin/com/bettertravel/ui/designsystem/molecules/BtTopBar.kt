@@ -30,6 +30,7 @@ import com.bettertravel.ui.resources.Res
 import com.bettertravel.ui.resources.betty
 import com.bettertravel.ui.resources.ic_back
 import com.bettertravel.ui.resources.ic_menu
+import org.jetbrains.compose.resources.DrawableResource
 
 @Composable
 fun BtHomeTopBar(
@@ -66,8 +67,9 @@ fun BtHomeTopBar(
 fun BtChatTopBar(
     title: String,
     status: String,
-    onMenuClick: () -> Unit,
+    onLeadingClick: () -> Unit,
     modifier: Modifier = Modifier,
+    leadingIcon: DrawableResource = Res.drawable.ic_menu,
 ) {
     val colors = BetterTravelTheme.colors
     Row(
@@ -79,7 +81,7 @@ fun BtChatTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        BtIconButton(Res.drawable.ic_menu, onClick = onMenuClick, style = BtIconButtonStyle.Plain, size = 40.dp)
+        BtIconButton(leadingIcon, onClick = onLeadingClick, style = BtIconButtonStyle.Plain, size = 40.dp)
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(text = title, style = BetterTravelTheme.typography.title, color = colors.textPrimary)
             Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -140,7 +142,7 @@ private fun BtHomeTopBarPreview() {
 @Composable
 private fun BtChatTopBarPreview() {
     BtPreview {
-        BtChatTopBar(title = "BetterTravel", status = "with Betty", onMenuClick = {})
+        BtChatTopBar(title = "BetterTravel", status = "with Betty", onLeadingClick = {})
     }
 }
 

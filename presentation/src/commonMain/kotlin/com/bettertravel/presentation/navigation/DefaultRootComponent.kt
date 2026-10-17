@@ -4,10 +4,12 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.bettertravel.presentation.ViewModelContext
-import com.bettertravel.presentation.routes.RoutesListViewModel
-import com.bettertravel.presentation.routes.RoutesListViewModelImpl
+import com.bettertravel.presentation.chat.ChatViewModel
+import com.bettertravel.presentation.chat.ChatViewModelImpl
 import kotlinx.serialization.Serializable
 
 class DefaultRootComponent(
@@ -20,7 +22,7 @@ class DefaultRootComponent(
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.RoutesList,
+            initialConfiguration = Config.Main,
             handleBackButton = true,
             childFactory = ::createChild,
         )
@@ -30,13 +32,22 @@ class DefaultRootComponent(
         context: ComponentContext,
     ): RootComponent.Child {
         return when (config) {
-            Config.RoutesList -> {
-                val parameters =
-                    RoutesListViewModel.Parameters(
-                        context = ViewModelContext(context),
-                        onRouteSelected = { },
+            Config.Main -> {
+                val main =
+                    DefaultMainComponent(
+                        componentContext = context,
+                        onOpenChat = { navigation.pushNew(Config.Chat) },
                     )
-                RootComponent.Child.RoutesList(RoutesListViewModelImpl(parameters))
+                RootComponent.Child.Main(main)
+            }
+
+            Config.Chat -> {
+                val parameters =
+                    ChatViewModel.Parameters(
+                        context = ViewModelContext(context),
+                        onBack = { navigation.pop() },
+                    )
+                RootComponent.Child.Chat(ChatViewModelImpl(parameters))
             }
         }
     }
@@ -44,6 +55,9 @@ class DefaultRootComponent(
     @Serializable
     private sealed interface Config {
         @Serializable
-        data object RoutesList : Config
+        data object Main : Config
+
+        @Serializable
+        data object Chat : Config
     }
 }
