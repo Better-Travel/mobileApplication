@@ -2,7 +2,6 @@ package com.bettertravel.ui.aichat
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.bettertravel.presentation.aichat.AIChatViewModel
@@ -49,26 +49,33 @@ fun AIChatContent(
         }
     }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Box(modifier = Modifier.weight(1f).fillMaxSize()) {
-            val currentStub = stub
-            if (currentStub != null) {
-                AIChatStub(currentStub, modifier = Modifier.fillMaxSize())
-            } else {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(horizontal = BtSpacing.l, vertical = BtSpacing.xxl),
-                    verticalArrangement = Arrangement.spacedBy(BtSpacing.xl),
-                ) {
-                    items(items, key = { it.id }) { item ->
-                        AIChatItem(item)
-                    }
-                    if (loading) {
-                        item(key = "typing") {
-                            BtAssistantMessage(timestamp = null) {
-                                BtTypingIndicator()
-                            }
+    val pillBottom = if (keyboardVisible) BtSpacing.m else BtSpacing.tabBarInset
+    val contentBottom = pillBottom + BtSpacing.inputPillHeight + BtSpacing.m
+
+    Box(modifier = modifier.fillMaxSize()) {
+        val currentStub = stub
+        if (currentStub != null) {
+            AIChatStub(currentStub, modifier = Modifier.fillMaxSize().padding(bottom = contentBottom))
+        } else {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxSize(),
+                contentPadding =
+                    PaddingValues(
+                        start = BtSpacing.l,
+                        end = BtSpacing.l,
+                        top = BtSpacing.xxl,
+                        bottom = contentBottom,
+                    ),
+                verticalArrangement = Arrangement.spacedBy(BtSpacing.xl),
+            ) {
+                items(items, key = { it.id }) { item ->
+                    AIChatItem(item)
+                }
+                if (loading) {
+                    item(key = "typing") {
+                        BtAssistantMessage(timestamp = null) {
+                            BtTypingIndicator()
                         }
                     }
                 }
@@ -80,15 +87,14 @@ fun AIChatContent(
             placeholder = placeholder,
             onSend = { viewModel.inputViewModel.send() },
             onVoice = { viewModel.inputViewModel.startVoice() },
+            // TODO: attachments are not supported yet
+            onAdd = { },
             canSend = canSend,
             voiceModifier = LocalMicModifier.current,
             modifier =
-                Modifier.padding(
-                    start = BtSpacing.l,
-                    end = BtSpacing.l,
-                    top = BtSpacing.s,
-                    bottom = if (keyboardVisible) BtSpacing.m else BtSpacing.tabBarInset,
-                ),
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(start = BtSpacing.l, end = BtSpacing.l, bottom = pillBottom),
         )
     }
 }

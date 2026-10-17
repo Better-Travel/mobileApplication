@@ -76,7 +76,7 @@ private fun BtTabItem(
     onClick: () -> Unit,
 ) {
     val colors = BetterTravelTheme.colors
-    val tint = if (selected) colors.primary else colors.textSecondary
+    val tint = if (selected) colors.brand else colors.textSecondary
     Column(
         modifier =
             Modifier

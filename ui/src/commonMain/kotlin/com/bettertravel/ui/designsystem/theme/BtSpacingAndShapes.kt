@@ -17,7 +17,8 @@ object BtSpacing {
     val xl: Dp = 20.dp
     val xxl: Dp = 24.dp
     val xxxl: Dp = 32.dp
-    val tabBarInset: Dp = 112.dp
+    val tabBarInset: Dp = 80.dp
+    val inputPillHeight: Dp = 56.dp
 }
 
 @Immutable

@@ -40,6 +40,7 @@ data class BtTypography(
     val eyebrow: TextStyle,
     val metric: TextStyle,
     val mono: TextStyle,
+    val input: TextStyle,
 )
 
 @Composable
@@ -231,6 +232,13 @@ private fun createTypography(
                 letterSpacing = (-0.18).sp,
                 fontWeight = FontWeight.Bold,
             ),
+        input =
+            TextStyle(
+                fontFamily = jakarta,
+                fontSize = 14.5.sp,
+                lineHeight = 20.sp,
+                fontWeight = FontWeight.Normal,
+            ),
         mono =
             TextStyle(
                 fontFamily = FontFamily.Monospace,
@@ -268,5 +276,6 @@ private fun BtTypography.withoutSynthesis(): BtTypography {
         eyebrow = eyebrow.noSynthesis(),
         metric = metric.noSynthesis(),
         mono = mono.noSynthesis(),
+        input = input.noSynthesis(),
     )
 }

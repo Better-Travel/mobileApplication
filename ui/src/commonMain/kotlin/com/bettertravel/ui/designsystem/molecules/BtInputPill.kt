@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bettertravel.ui.designsystem.atoms.BtIconButton
@@ -29,8 +31,10 @@ import com.bettertravel.ui.designsystem.theme.BtSpacing
 import com.bettertravel.ui.designsystem.theme.btShadow
 import com.bettertravel.ui.resources.Res
 import com.bettertravel.ui.resources.ic_add
+import com.bettertravel.ui.resources.ic_arrow_right
 import com.bettertravel.ui.resources.ic_mic
-import com.bettertravel.ui.resources.ic_send
+
+private val ButtonSize = 40.dp
 
 @Composable
 fun BtInputPill(
@@ -54,28 +58,42 @@ fun BtInputPill(
                 .clip(CircleShape)
                 .background(colors.glassStrong)
                 .border(1.dp, colors.glassBorder, CircleShape)
-                .padding(BtSpacing.xs + 3.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                .heightIn(min = BtSpacing.inputPillHeight)
+                .padding(horizontal = BtSpacing.s, vertical = BtSpacing.s),
+        horizontalArrangement = Arrangement.spacedBy(BtSpacing.xs),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onAdd != null) {
-            BtIconButton(Res.drawable.ic_add, onClick = onAdd, style = BtIconButtonStyle.Plain, size = 36.dp)
+            BtIconButton(
+                icon = Res.drawable.ic_add,
+                onClick = onAdd,
+                style = BtIconButtonStyle.Plain,
+                size = ButtonSize,
+                iconSize = 24.dp,
+                tint = colors.placeholder,
+            )
         }
         Box(
             modifier =
                 Modifier
                     .weight(1f)
-                    .padding(horizontal = BtSpacing.m),
+                    .padding(horizontal = BtSpacing.s),
             contentAlignment = Alignment.CenterStart,
         ) {
             if (value.isEmpty()) {
-                Text(text = placeholder, style = typography.bodySmall, color = colors.textTertiary)
+                Text(
+                    text = placeholder,
+                    style = typography.input,
+                    color = colors.placeholder,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
             BasicTextField(
                 value = value,
                 onValueChange = onValueChange,
-                textStyle = typography.bodySmall.copy(color = colors.textPrimary),
-                cursorBrush = SolidColor(colors.primary),
+                textStyle = typography.input.copy(color = colors.textPrimary),
+                cursorBrush = SolidColor(colors.brand),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                 keyboardActions = KeyboardActions(onSend = { if (canSend) onSend() }),
@@ -83,19 +101,19 @@ fun BtInputPill(
             )
         }
         BtIconButton(
-            Res.drawable.ic_mic,
+            icon = Res.drawable.ic_mic,
             onClick = onVoice,
             modifier = voiceModifier,
             style = BtIconButtonStyle.Tonal,
-            size = 36.dp,
-            iconSize = 16.dp,
+            size = ButtonSize,
+            iconSize = 20.dp,
         )
         BtIconButton(
-            Res.drawable.ic_send,
+            icon = Res.drawable.ic_arrow_right,
             onClick = onSend,
             style = BtIconButtonStyle.Brand,
-            size = 36.dp,
-            iconSize = 16.dp,
+            size = ButtonSize,
+            iconSize = 20.dp,
             enabled = canSend,
         )
     }
@@ -112,6 +130,23 @@ private fun BtInputPillPreview() {
             onSend = {},
             onVoice = {},
             onAdd = {},
+            canSend = false,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun BtInputPillTypedPreview() {
+    BtPreview {
+        BtInputPill(
+            value = "Plan 3 hours in Warsaw",
+            onValueChange = {},
+            placeholder = "",
+            onSend = {},
+            onVoice = {},
+            onAdd = {},
+            canSend = true,
         )
     }
 }
