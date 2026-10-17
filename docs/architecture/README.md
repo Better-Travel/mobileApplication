@@ -11,6 +11,7 @@ Reactive MVVM on top of Clean Architecture. Dependencies point inward to `domain
 | [mvvm.md](mvvm.md) | ViewModel pattern, Reaktive usage, Decompose navigation, UI rules |
 | [dependency-injection.md](dependency-injection.md) | `Deps` service locator, composition root, testing with mocks |
 | [ai-chat.md](ai-chat.md) | AI chat and voice mode: layers, ViewModels, transitions |
+| [route-flow.puml](route-flow.puml) | PlantUML class diagram of the route flow: chat suggestion, Route tab, map, stop details |
 | [design-system.md](design-system.md) | Theme, atoms, molecules, organisms, icons, fonts and preview rules |
 | [build-and-tooling.md](build-and-tooling.md) | Versions, targets, localization generator, ktlint, tests, running the apps |
 

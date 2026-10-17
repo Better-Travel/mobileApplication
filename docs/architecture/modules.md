@@ -11,11 +11,11 @@
 | `presentation` | ViewModels (Decompose + Reaktive) and navigation. No Compose, Ktor or SQLDelight | common, domain, localization |
 | `ui` | Compose Multiplatform screens and components | common, domain, presentation |
 | `application` | Umbrella module and composition root; builds the iOS framework | all shared modules |
-| `android:app` | Android entry point (`MainActivity`, manifest) | application, ui, android:application, android:presentation |
+| `android:app` | Android entry point (`MainActivity`, manifest) | application, ui, android:application, android:platform, android:presentation |
 | `android:application` | `Application` class, DI bootstrap | application, database, android:platform |
-| `android:platform` | Android-specific bindings (e.g. database driver) | common, database |
+| `android:platform` | Android-specific bindings (database driver, speech recognizer, audio player, microphone permission bridge) | common, database, domain |
 | `android:presentation` | Android glue creating the retained root component | common, presentation |
-| `mockServer` | Local Ktor server, `GET /routes` on port 8080 | none |
+| `mockServer` | Local Ktor server on port 8080: `GET /routes`, `POST /chat` (suggested routes carry mock stop coordinates) | none |
 | `uiTest` | Appium end-to-end test skeleton | none |
 | `iosApp` | Xcode project hosting the Compose UI | `application` framework |
 

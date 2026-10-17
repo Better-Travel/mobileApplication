@@ -28,6 +28,7 @@ dependencies {
     implementation(project(":application"))
     implementation(project(":ui"))
     implementation(project(":android:application"))
+    implementation(project(":android:platform"))
     implementation(project(":android:presentation"))
     implementation(compose.runtime)
     implementation(libs.androidx.activity.compose)

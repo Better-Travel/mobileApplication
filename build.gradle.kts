@@ -57,13 +57,14 @@ val allowedDependencies = mapOf(
         ":presentation",
         ":ui",
     ),
-    ":android:platform" to setOf(":common", ":database"),
+    ":android:platform" to setOf(":common", ":database", ":domain"),
     ":android:presentation" to setOf(":common", ":presentation"),
     ":android:application" to setOf(":application", ":database", ":android:platform"),
     ":android:app" to setOf(
         ":application",
         ":ui",
         ":android:application",
+        ":android:platform",
         ":android:presentation",
     ),
 )

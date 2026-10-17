@@ -23,6 +23,10 @@
 		<string>en</string>
 		<string>fr</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>BetterTravel listens to your voice so you can talk to Betty.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>BetterTravel turns your speech into text so Betty can plan your walks.</string>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>

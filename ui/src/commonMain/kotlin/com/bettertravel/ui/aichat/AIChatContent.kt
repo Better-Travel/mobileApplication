@@ -1,10 +1,13 @@
 package com.bettertravel.ui.aichat
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +34,7 @@ import com.bettertravel.ui.designsystem.layout.isKeyboardVisible
 import com.bettertravel.ui.designsystem.molecules.BtAssistantMessage
 import com.bettertravel.ui.designsystem.molecules.BtInputPill
 import com.bettertravel.ui.designsystem.preview.BtPreview
+import com.bettertravel.ui.designsystem.theme.BetterTravelTheme
 import com.bettertravel.ui.designsystem.theme.BtSpacing
 import com.bettertravel.ui.preview.PreviewAIChat
 import com.bettertravel.ui.rx.collectAsState
@@ -107,6 +112,21 @@ fun AIChatContent(
                 }
             }
         }
+        val fadeColor = BetterTravelTheme.colors.background
+        Box(
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .height(contentBottom + BtSpacing.xxl)
+                    .background(
+                        Brush.verticalGradient(
+                            0f to fadeColor.copy(alpha = 0f),
+                            0.35f to fadeColor.copy(alpha = 0.85f),
+                            1f to fadeColor,
+                        ),
+                    ),
+        )
         Column(
             modifier =
                 Modifier

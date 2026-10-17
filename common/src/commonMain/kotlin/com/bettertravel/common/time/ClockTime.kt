@@ -7,3 +7,5 @@ fun currentTimeMillis(): Long {
 }
 
 expect fun formatClockTime(epochMillis: Long): String
+
+expect fun formatShortDate(epochMillis: Long): String

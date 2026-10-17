@@ -39,6 +39,7 @@ class AIChatViewModelImpl(
     private val suggestionsSubject = BehaviorSubject<AIQuickRepliesViewModel?>(null)
     private val modeSubject = BehaviorSubject(AIChatMode.Text)
     private val transcriptSubject = BehaviorSubject<List<AIVoiceEntry>>(emptyList())
+    private val voiceRouteSubject = BehaviorSubject<AIVoiceRoute?>(null)
 
     private val voiceBackCallback = BackCallback(isEnabled = false) { closeVoice() }
 
@@ -60,15 +61,18 @@ class AIChatViewModelImpl(
             ),
         )
 
-    override val voiceViewModel: AIVoiceViewModel =
+    private val voiceImpl =
         AIVoiceViewModelImpl(
             AIVoiceViewModel.Parameters(
                 context = parameters.context,
                 transcript = transcriptSubject,
+                route = voiceRouteSubject,
+                onPreviewRoute = { previewLatestRoute() },
                 onPhrase = { phrase -> send(phrase) },
                 onClose = { closeVoice() },
             ),
         )
+    override val voiceViewModel: AIVoiceViewModel = voiceImpl
 
     init {
         parameters.context.backHandler.register(voiceBackCallback)
@@ -85,7 +89,7 @@ class AIChatViewModelImpl(
     private fun openVoice() {
         modeSubject.onNext(AIChatMode.Voice)
         voiceBackCallback.isEnabled = true
-        (voiceViewModel as AIVoiceViewModelImpl).startListening()
+        voiceImpl.startListening()
     }
 
     private fun closeVoice() {
@@ -97,6 +101,7 @@ class AIChatViewModelImpl(
         if (loadingSubject.value) {
             return
         }
+        voiceImpl.stopSpeaking()
         messages.add(createMessage(ChatAuthor.User, text, null))
         stubSubject.onNext(null)
         suggestionsSubject.onNext(null)
@@ -112,6 +117,9 @@ class AIChatViewModelImpl(
                 onSuccess = { reply ->
                     messages.add(createMessage(ChatAuthor.Assistant, reply.text, reply.route))
                     refresh()
+                    if (modeSubject.value == AIChatMode.Voice) {
+                        voiceImpl.speak(reply.text)
+                    }
                 },
                 onError = { showErrorStub() },
             ).disposeWhenClosed()
@@ -136,6 +144,18 @@ class AIChatViewModelImpl(
         itemsSubject.onNext(buildItems())
         suggestionsSubject.onNext(buildSuggestions())
         transcriptSubject.onNext(buildTranscript())
+        voiceRouteSubject.onNext(latestRoute()?.let { route -> AIVoiceRoute(route.title, formatDuration(route)) })
+    }
+
+    private fun latestRoute(): SuggestedRoute? {
+        val last = messages.lastOrNull() ?: return null
+        return if (last.author == ChatAuthor.Assistant) last.route else null
+    }
+
+    private fun previewLatestRoute() {
+        val route = latestRoute() ?: return
+        parameters.onPreviewRoute(route)
+        closeVoice()
     }
 
     private fun buildItems(): List<AIChatViewModel.Item> {
@@ -207,10 +227,10 @@ class AIChatViewModelImpl(
         return AIRouteCardViewModelImpl(
             title = route.title,
             duration = formatDuration(route),
-            stops = route.stops,
+            stops = route.stops.map { stop -> stop.name },
             previewTitle = strings.chatRoutePreview,
             startTitle = strings.chatRouteStart,
-            onPreview = { parameters.onPreviewRoute() },
+            onPreview = { parameters.onPreviewRoute(route) },
             onStart = { parameters.onStartRoute() },
         )
     }

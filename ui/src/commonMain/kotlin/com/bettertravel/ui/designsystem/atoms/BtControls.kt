@@ -130,6 +130,7 @@ enum class BtMarkerStyle {
     Coral,
     Deep,
     Outlined,
+    Light,
 }
 
 @Composable
@@ -145,12 +146,13 @@ fun BtNumberMarker(
             BtMarkerStyle.Primary -> colors.primary
             BtMarkerStyle.Coral -> colors.coral
             BtMarkerStyle.Deep -> colors.coralText
-            BtMarkerStyle.Outlined -> colors.surface
+            BtMarkerStyle.Outlined, BtMarkerStyle.Light -> colors.surface
         }
     val content =
         when (style) {
             BtMarkerStyle.Coral -> colors.coralDeep
             BtMarkerStyle.Outlined -> colors.brand
+            BtMarkerStyle.Light -> colors.primary
             else -> colors.textOnPrimary
         }
     val outline =

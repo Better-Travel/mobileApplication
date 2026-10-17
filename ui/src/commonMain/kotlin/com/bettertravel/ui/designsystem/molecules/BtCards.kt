@@ -40,6 +40,7 @@ import com.bettertravel.ui.designsystem.theme.BtSpacing
 import com.bettertravel.ui.designsystem.theme.btShadow
 import com.bettertravel.ui.resources.Res
 import com.bettertravel.ui.resources.betty
+import com.bettertravel.ui.resources.ic_city
 import com.bettertravel.ui.resources.ic_medal_star
 import com.bettertravel.ui.resources.ic_reorder
 import org.jetbrains.compose.resources.DrawableResource
@@ -58,8 +59,10 @@ fun BtWaypointCard(
     thumbnail: DrawableResource,
     modifier: Modifier = Modifier,
     warm: Boolean = false,
+    onClick: (() -> Unit)? = null,
 ) {
     val colors = BetterTravelTheme.colors
+    val clickable = if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier
     Row(
         modifier =
             modifier
@@ -67,6 +70,7 @@ fun BtWaypointCard(
                 .btShadow(BtElevation.Xs, BtShapes.md)
                 .clip(BtShapes.md)
                 .background(colors.surface)
+                .then(clickable)
                 .padding(BtSpacing.m),
         horizontalArrangement = Arrangement.spacedBy(BtSpacing.m),
         verticalAlignment = Alignment.CenterVertically,
@@ -143,10 +147,16 @@ fun BtCityCard(
                 .padding(BtSpacing.m),
         verticalArrangement = Arrangement.spacedBy(BtSpacing.xs),
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(BtSpacing.s), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Text(text = name, style = BetterTravelTheme.typography.headlineSemiBold, color = colors.textPrimary)
             if (selected) {
-                BtDot(colors.coral, size = 8.dp)
+                BtDot(colors.primary, size = 10.dp)
+            } else {
+                BtIcon(Res.drawable.ic_city, tint = colors.textTertiary, size = 16.dp)
             }
         }
         Text(text = routes, style = BetterTravelTheme.typography.labelMedium, color = colors.textSecondary)

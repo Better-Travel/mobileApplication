@@ -5,6 +5,8 @@ import com.bettertravel.domain.chat.ChatAuthor
 import com.bettertravel.domain.chat.ChatMessage
 import com.bettertravel.domain.chat.ChatReply
 import com.bettertravel.domain.chat.SuggestedRoute
+import com.bettertravel.domain.map.GeoPoint
+import com.bettertravel.domain.routes.RouteStop
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -23,7 +25,8 @@ import kotlin.test.assertEquals
 
 private const val REPLY_JSON =
     """{"text":"Here is a loop","route":{"title":"Old Town","distanceKm":3.2,""" +
-        """"durationMinutes":165,"stops":["Market Square","St. John's"]}}"""
+        """"durationMinutes":165,"stops":[{"name":"Market Square","latitude":52.2497,"longitude":21.0122},""" +
+        """{"name":"St. John's","latitude":52.249,"longitude":21.0137}]}}"""
 
 class HttpBasedAIChattingTests {
     private var requestBody: String = ""
@@ -70,7 +73,16 @@ class HttpBasedAIChattingTests {
             assertEquals(
                 ChatReply(
                     text = "Here is a loop",
-                    route = SuggestedRoute("Old Town", 3.2, 165, listOf("Market Square", "St. John's")),
+                    route =
+                        SuggestedRoute(
+                            "Old Town",
+                            3.2,
+                            165,
+                            listOf(
+                                RouteStop("Market Square", GeoPoint(52.2497, 21.0122)),
+                                RouteStop("St. John's", GeoPoint(52.249, 21.0137)),
+                            ),
+                        ),
                 ),
                 reply,
             )

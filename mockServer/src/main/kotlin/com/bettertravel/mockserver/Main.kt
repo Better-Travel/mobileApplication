@@ -36,11 +36,18 @@ data class ChatRequest(
 )
 
 @Serializable
+data class RouteStopResponse(
+    val name: String,
+    val latitude: Double,
+    val longitude: Double,
+)
+
+@Serializable
 data class SuggestedRouteResponse(
     val title: String,
     val distanceKm: Double,
     val durationMinutes: Int,
-    val stops: List<String>,
+    val stops: List<RouteStopResponse>,
 )
 
 @Serializable
@@ -54,7 +61,12 @@ private val oldTownLoop =
         title = "Old Town & Courtyards",
         distanceKm = 3.2,
         durationMinutes = 165,
-        stops = listOf("Old Town Market Square", "St. John's Vaults & Bell View", "Freta Artisan Café (Courtyard)"),
+        stops =
+            listOf(
+                RouteStopResponse("Old Town Market Square", 52.24975, 21.01218),
+                RouteStopResponse("St. John's Vaults & Bell View", 52.24902, 21.01368),
+                RouteStopResponse("Freta Artisan Café (Courtyard)", 52.25315, 21.01044),
+            ),
     )
 
 private fun replyTo(request: ChatRequest): ChatReplyResponse {

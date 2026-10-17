@@ -4,6 +4,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import com.badoo.reaktive.subject.behavior.BehaviorObservable
 import com.bettertravel.presentation.aichat.AIChatViewModel
+import com.bettertravel.presentation.drawer.DrawerViewModel
 import com.bettertravel.presentation.memories.MemoriesViewModel
 import com.bettertravel.presentation.route.RouteViewModel
 
@@ -19,8 +20,7 @@ interface MainComponent {
     val children: Value<ChildStack<*, Child>>
 
     val isDrawerOpen: BehaviorObservable<Boolean>
-    val drawerTitle: String
-    val drawerMessage: String
+    val drawerViewModel: DrawerViewModel
 
     fun tabTitle(tab: MainTab): String
 

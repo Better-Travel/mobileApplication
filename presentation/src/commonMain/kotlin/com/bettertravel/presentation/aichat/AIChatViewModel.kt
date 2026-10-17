@@ -2,6 +2,7 @@ package com.bettertravel.presentation.aichat
 
 import com.badoo.reaktive.observable.Observable
 import com.badoo.reaktive.subject.behavior.BehaviorObservable
+import com.bettertravel.domain.chat.SuggestedRoute
 import com.bettertravel.presentation.ViewModel
 import com.bettertravel.presentation.ViewModelContext
 
@@ -49,7 +50,7 @@ interface AIChatViewModel : ViewModel {
 
     data class Parameters(
         val context: ViewModelContext,
-        val onPreviewRoute: () -> Unit,
+        val onPreviewRoute: (SuggestedRoute) -> Unit,
         val onStartRoute: () -> Unit,
     )
 }

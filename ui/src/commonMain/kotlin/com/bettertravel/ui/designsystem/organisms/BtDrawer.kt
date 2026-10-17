@@ -2,9 +2,7 @@ package com.bettertravel.ui.designsystem.organisms
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,10 +27,9 @@ import com.bettertravel.ui.resources.ic_chevron_left
 
 @Composable
 fun BtDrawer(
-    title: String,
-    message: String,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
     val colors = BetterTravelTheme.colors
     val panelShape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp)
@@ -44,7 +41,7 @@ fun BtDrawer(
                     .background(colors.scrim)
                     .clickable(role = Role.Button, onClick = onDismiss),
         )
-        Column(
+        Box(
             modifier =
                 Modifier
                     .fillMaxHeight()
@@ -52,12 +49,9 @@ fun BtDrawer(
                     .btShadow(BtElevation.Xxl, panelShape)
                     .clip(panelShape)
                     .background(colors.glassStrong)
-                    .clickable(enabled = false) {}
-                    .padding(BtSpacing.l),
-            verticalArrangement = Arrangement.spacedBy(BtSpacing.l),
+                    .clickable(enabled = false) {},
         ) {
-            Text(text = title, style = BetterTravelTheme.typography.headlineLarge, color = colors.textPrimary)
-            Text(text = message, style = BetterTravelTheme.typography.body, color = colors.textSecondary)
+            content()
         }
         BtIconButton(
             icon = Res.drawable.ic_chevron_left,
@@ -75,10 +69,12 @@ fun BtDrawer(
 @Composable
 private fun BtDrawerPreview() {
     BtPreview {
-        BtDrawer(
-            title = "Menu",
-            message = "Your profile, cities and settings will appear here.",
-            onDismiss = {},
-        )
+        BtDrawer(onDismiss = {}) {
+            Text(
+                text = "Menu",
+                style = BetterTravelTheme.typography.headlineLarge,
+                modifier = Modifier.padding(BtSpacing.l),
+            )
+        }
     }
 }

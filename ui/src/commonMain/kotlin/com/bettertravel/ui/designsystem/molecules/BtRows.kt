@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -120,9 +121,12 @@ fun BtSettingRow(
     title: String,
     modifier: Modifier = Modifier,
     value: String? = null,
+    subtitle: String? = null,
+    iconTint: Color = BetterTravelTheme.colors.primary,
     checked: Boolean? = null,
     onCheckedChange: ((Boolean) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
+    trailing: (@Composable () -> Unit)? = null,
 ) {
     val colors = BetterTravelTheme.colors
     val clickable = if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier
@@ -143,20 +147,21 @@ fun BtSettingRow(
                     .background(colors.surfaceContainerHighest),
             contentAlignment = Alignment.Center,
         ) {
-            BtIcon(icon, tint = colors.primary, size = 16.dp)
+            BtIcon(icon, tint = iconTint, size = 16.dp)
         }
-        Text(
-            text = title,
-            style = BetterTravelTheme.typography.label,
-            color = colors.textPrimary,
-            modifier = Modifier.weight(1f),
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(text = title, style = BetterTravelTheme.typography.label, color = colors.textPrimary)
+            if (subtitle != null) {
+                Text(text = subtitle, style = BetterTravelTheme.typography.labelMedium, color = colors.textSecondary)
+            }
+        }
         if (value != null) {
             Text(text = value, style = BetterTravelTheme.typography.labelMedium, color = colors.textTertiary)
         }
         if (checked != null && onCheckedChange != null) {
             BtSwitch(checked = checked, onCheckedChange = onCheckedChange)
         }
+        trailing?.invoke()
     }
 }
 

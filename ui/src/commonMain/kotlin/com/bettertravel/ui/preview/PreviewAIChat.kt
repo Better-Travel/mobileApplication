@@ -19,6 +19,7 @@ import com.bettertravel.presentation.aichat.AIRouteCardViewModelImpl
 import com.bettertravel.presentation.aichat.AIUserMessageViewModel
 import com.bettertravel.presentation.aichat.AIUserMessageViewModelImpl
 import com.bettertravel.presentation.aichat.AIVoiceEntry
+import com.bettertravel.presentation.aichat.AIVoiceRoute
 import com.bettertravel.presentation.aichat.AIVoiceViewModel
 
 internal object PreviewAIChat {
@@ -119,6 +120,13 @@ private class PreviewVoiceViewModel(
 ) : AIVoiceViewModel {
     override val statusText: Observable<String> = observableOf("Betty is listening...")
     override val isListening: BehaviorObservable<Boolean> = BehaviorSubject(true)
+    override val isSpeaking: BehaviorObservable<Boolean> = BehaviorSubject(false)
+    override val route: BehaviorObservable<AIVoiceRoute?> =
+        BehaviorSubject(if (withTranscript) AIVoiceRoute("Old Town & Courtyards", "2h 45m • 3.2 km") else null)
+    override val previewRouteTitle: String = "Preview on map"
+    override val partialText: BehaviorObservable<String?> =
+        BehaviorSubject(if (withTranscript) "Is there a viewpoint nearby" else null)
+    override val partialSpeaker: String = "You"
     override val transcriptTitle: String = "Real-time transcript"
     override val liveLabel: String = "Live"
     override val emptyTranscript: String = "Say something or tap a suggestion below."
@@ -145,6 +153,9 @@ private class PreviewVoiceViewModel(
     }
 
     override fun toggleListening() {
+    }
+
+    override fun previewRoute() {
     }
 
     override fun select(suggestion: String) {

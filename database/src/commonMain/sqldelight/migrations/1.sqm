@@ -1,0 +1,8 @@
+CREATE TABLE BookmarkedPlace (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    routeTitle TEXT NOT NULL,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL,
+    savedAtMillis INTEGER NOT NULL
+);

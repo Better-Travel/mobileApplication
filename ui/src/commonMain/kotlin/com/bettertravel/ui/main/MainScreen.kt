@@ -9,8 +9,11 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -35,6 +38,7 @@ import com.bettertravel.ui.designsystem.organisms.BtDrawer
 import com.bettertravel.ui.designsystem.preview.BtPreview
 import com.bettertravel.ui.designsystem.theme.BetterTravelTheme
 import com.bettertravel.ui.designsystem.theme.BtSpacing
+import com.bettertravel.ui.drawer.DrawerScreen
 import com.bettertravel.ui.memories.MemoriesScreen
 import com.bettertravel.ui.preview.PreviewMainComponent
 import com.bettertravel.ui.resources.Res
@@ -71,7 +75,9 @@ fun MainScreen(component: MainComponent) {
                     )
                 }
             if (target == AIChatMode.Voice && chat != null) {
-                AIVoiceContent(viewModel = chat.voiceViewModel, micModifier = micModifier)
+                Box(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
+                    AIVoiceContent(viewModel = chat.voiceViewModel, micModifier = micModifier)
+                }
             } else {
                 CompositionLocalProvider(LocalMicModifier provides micModifier) {
                     MainContent(
@@ -81,9 +87,8 @@ fun MainScreen(component: MainComponent) {
                         onTabSelected = { index -> component.selectTab(component.tabs[index]) },
                         onMenuClick = { component.openDrawer() },
                         isDrawerOpen = isDrawerOpen,
-                        drawerTitle = component.drawerTitle,
-                        drawerMessage = component.drawerMessage,
                         onDrawerDismiss = { component.closeDrawer() },
+                        drawerContent = { DrawerScreen(component.drawerViewModel) },
                         isTabBarVisible = !keyboardVisible,
                     ) {
                         Children(stack = component.children) { created ->
@@ -111,33 +116,34 @@ fun MainContent(
     onTabSelected: (Int) -> Unit,
     onMenuClick: () -> Unit,
     isDrawerOpen: Boolean,
-    drawerTitle: String,
-    drawerMessage: String,
     onDrawerDismiss: () -> Unit,
+    drawerContent: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     isTabBarVisible: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            BtHomeTopBar(title = appTitle, onMenuClick = onMenuClick, onProfileClick = {})
-            Box(modifier = Modifier.weight(1f)) {
-                content()
+        Box(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                BtHomeTopBar(title = appTitle, onMenuClick = onMenuClick, onProfileClick = {})
+                Box(modifier = Modifier.weight(1f)) {
+                    content()
+                }
+            }
+            if (isTabBarVisible) {
+                BtTabBar(
+                    tabs = tabs,
+                    selectedIndex = selectedIndex,
+                    onTabSelected = onTabSelected,
+                    modifier =
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(horizontal = BtSpacing.l, vertical = BtSpacing.s),
+                )
             }
         }
-        if (isTabBarVisible) {
-            BtTabBar(
-                tabs = tabs,
-                selectedIndex = selectedIndex,
-                onTabSelected = onTabSelected,
-                modifier =
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(horizontal = BtSpacing.l, vertical = BtSpacing.s),
-            )
-        }
         if (isDrawerOpen) {
-            BtDrawer(title = drawerTitle, message = drawerMessage, onDismiss = onDrawerDismiss)
+            BtDrawer(onDismiss = onDrawerDismiss, content = drawerContent)
         }
     }
 }
@@ -174,9 +180,8 @@ private fun MainContentPreview() {
             onTabSelected = {},
             onMenuClick = {},
             isDrawerOpen = false,
-            drawerTitle = "Menu",
-            drawerMessage = "",
             onDrawerDismiss = {},
+            drawerContent = {},
         ) {
             Text(text = "Tab content", style = BetterTravelTheme.typography.body, modifier = Modifier.padding(24.dp))
         }

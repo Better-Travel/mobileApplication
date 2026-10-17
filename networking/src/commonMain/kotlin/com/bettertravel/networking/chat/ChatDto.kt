@@ -4,6 +4,8 @@ import com.bettertravel.domain.chat.ChatAuthor
 import com.bettertravel.domain.chat.ChatMessage
 import com.bettertravel.domain.chat.ChatReply
 import com.bettertravel.domain.chat.SuggestedRoute
+import com.bettertravel.domain.map.GeoPoint
+import com.bettertravel.domain.routes.RouteStop
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -29,18 +31,29 @@ internal data class ChatMessageDto(
 }
 
 @Serializable
+internal data class RouteStopDto(
+    val name: String,
+    val latitude: Double,
+    val longitude: Double,
+) {
+    fun toDomain(): RouteStop {
+        return RouteStop(name = name, location = GeoPoint(latitude = latitude, longitude = longitude))
+    }
+}
+
+@Serializable
 internal data class SuggestedRouteDto(
     val title: String,
     val distanceKm: Double,
     val durationMinutes: Int,
-    val stops: List<String>,
+    val stops: List<RouteStopDto>,
 ) {
     fun toDomain(): SuggestedRoute {
         return SuggestedRoute(
             title = title,
             distanceKm = distanceKm,
             durationMinutes = durationMinutes,
-            stops = stops,
+            stops = stops.map { stop -> stop.toDomain() },
         )
     }
 }

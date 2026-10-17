@@ -43,15 +43,16 @@ Location: `ui/src/commonMain/kotlin/com/bettertravel/ui/designsystem/`. Source: 
 
 ## Safe areas
 
-`RootContent` wraps the whole navigation stack in `BtSafeArea`, which paints the background edge to edge and then pads
-the content by `WindowInsets.safeDrawing` (status bar, navigation bar, display cutout, keyboard). Screens and
-components must not apply system-bar insets themselves; if a screen needs content under the bars (a map or a hero image),
-pass narrower `insets` for that subtree. Android calls `enableEdgeToEdge()` in `MainActivity`; iOS uses
-`.ignoresSafeArea()` in SwiftUI and Compose reads the safe area itself.
+`RootContent` wraps the navigation stack in `BtSafeArea` with empty insets: it paints the background edge to edge but
+does not pad. Each screen applies `WindowInsets.safeDrawing` (status bar, navigation bar, display cutout, keyboard)
+itself, so full-bleed surfaces can extend under the system bars. `MainContent` pads the top bar, tab content and tab bar;
+the voice screen and the drawer pad their own content, while the drawer scrim and panel fill the whole screen. Android
+calls `enableEdgeToEdge()` in `MainActivity`; iOS uses `.ignoresSafeArea()` in SwiftUI and Compose reads the safe area
+itself.
 
 ## Known gaps
 
-- Map is a placeholder (`BtMapPlaceholder`); a map SDK has not been chosen.
+- `BtMap` is a Compose-drawn slippy map: CARTO Positron tiles when `carto.apiKey` is set in the git-ignored `local.properties` (or the `CARTO_API_KEY` environment variable), otherwise OpenStreetMap tiles; the key is generated into `BuildSecrets` by the `application` module and ends up in the app binary (fetched via `MapTileLoading`), the Valhalla walking polyline and numbered markers, with pan, pinch and double-tap zoom. It has no tile disk cache, rotation or fling yet. `BtMapPlaceholder` remains for previews.
 - Photos in the design are placeholders; cards take a `DrawableResource` thumbnail for now.
 - Letter spacing, shadows and some gradients are approximations of the Figma values (Compose shadows differ from CSS).
 - Previews were compiled for Android and iOS but not visually reviewed yet; compare them with Figma in Android Studio.

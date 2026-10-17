@@ -6,6 +6,8 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.bettertravel.database.DatabaseDriverFactory
 import com.bettertravel.database.IosDatabaseDriverFactory
+import com.bettertravel.domain.speech.AudioPlaying
+import com.bettertravel.domain.speech.SpeechRecognizing
 import com.bettertravel.presentation.navigation.DefaultRootComponent
 import com.bettertravel.ui.RootContent
 import org.kodein.di.DI
@@ -17,6 +19,8 @@ fun MainViewController(): UIViewController {
     DependencyInitializer.initialize(
         DI.Module("ios") {
             bindSingleton<DatabaseDriverFactory> { IosDatabaseDriverFactory() }
+            bindSingleton<SpeechRecognizing> { IosSpeechRecognizer() }
+            bindSingleton<AudioPlaying> { IosAudioPlayer() }
         },
     )
     val lifecycle = LifecycleRegistry()

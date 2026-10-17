@@ -1,5 +1,7 @@
 package com.bettertravel.domain.chat
 
+import com.bettertravel.domain.routes.RouteStop
+
 enum class ChatAuthor {
     User,
     Assistant,
@@ -9,7 +11,7 @@ data class SuggestedRoute(
     val title: String,
     val distanceKm: Double,
     val durationMinutes: Int,
-    val stops: List<String>,
+    val stops: List<RouteStop>,
 )
 
 data class ChatMessage(

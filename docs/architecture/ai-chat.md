@@ -52,13 +52,42 @@ Tapping the mic in the input switches `mode` to `Voice` and starts "listening". 
 dock and grows into the hero mic. While listening, the mic shows pulsing rings (`BtPulsingMic`), the live badge dot and
 the mascot halo pulse. Voice mode is a full-screen overlay above the tab bar and top bar. Closing it, the keyboard button and system back return to the text chat. While the software keyboard is visible, the tab bar is hidden and the input pill sits directly above the keyboard.
 
-Speech recognition and speech synthesis are not implemented. The transcript shows the last two chat messages, and the
-suggestion chips send their phrase through the same chat pipeline, so voice mode is functional end to end without audio.
+When the latest assistant reply carries a route, voice mode shows a route card (title, duration and distance) with a
+"Preview on map" button. It stops listening and speech, leaves voice mode and previews the route on the Route tab, exactly
+like the button on the chat's route card (`AIVoiceViewModel.route` / `previewRoute()`).
+
+### Speech input (STT, native)
+
+`domain.speech.SpeechRecognizing.listen(languageTag): Observable<SpeechEvent>` is a cold stream: subscribing opens the
+microphone, disposing closes it. It emits `Partial(text)` while the user speaks and one `Final(text)`; failures arrive as
+`SpeechRecognitionException(SpeechFailure.PermissionDenied | Unavailable | NoSpeech | Failed)`.
+
+| Platform | Implementation |
+|---|---|
+| Android | `AndroidSpeechRecognizer` (`android:platform`) on `android.speech.SpeechRecognizer`; `MainActivity` registers the `RECORD_AUDIO` launcher through `MicrophonePermission.requester` |
+| iOS | `IosSpeechRecognizer` (`application`, iosMain) on `SFSpeechRecognizer` + `AVAudioEngine`; asks for speech and microphone permission itself and ends the request after 1.5 s of silence |
+
+`AIVoiceViewModelImpl` subscribes when the mic is tapped, shows the partial text as a live line in the transcript, sends
+the final phrase through the normal chat pipeline and maps failures to a status message. The recognizers emit on the main
+thread, so the ViewModel stays scheduler-agnostic and testable with `SpeechRecognizingMock`. The app language
+(`PlatformConfig.languageCode`) selects the recognition language.
+
+### Speech output (TTS, Google Cloud)
+
+`SpeechSynthesizing.speak(text, languageTag): Completable` is cold: subscribing speaks, completing means finished,
+disposing stops. `GoogleSpeechSynthesizing` (`networking`) calls `text:synthesize` (Neural2 voices: `en-US-Neural2-F`,
+`fr-FR-Neural2-A`, MP3) and hands the audio to `AudioPlaying`, implemented natively by `AndroidAudioPlayer`
+(`MediaPlayer`) and `IosAudioPlayer` (`AVAudioPlayer`).
+
+Betty speaks only in voice mode: `AIChatViewModelImpl` calls `AIVoiceViewModelImpl.speak` when a reply arrives while the
+mode is `Voice`. Speech stops when the user starts listening, sends a message or closes voice mode. The key is read from
+`google.tts.apiKey` in the git-ignored `local.properties` (or the `GOOGLE_TTS_API_KEY` environment variable) and generated
+into `BuildSecrets`, so it ends up in the app binary; use a backend proxy before release. Without a key `speak` fails
+with `Unavailable` and voice mode stays silent.
 
 ## Open items
 
 - Wire "Preview on map" and "Start walk" (`TODO` in `DefaultRootComponent`) once the Route screen exists.
-- Real speech input and output per platform (`expect/actual` in `common` or platform modules).
 - Persist conversations if needed (the `database` module is available).
 
 ## Suggestions

@@ -11,7 +11,13 @@ import com.bettertravel.domain.chat.AIChatting
 import com.bettertravel.domain.chat.ChatAuthor
 import com.bettertravel.domain.chat.ChatReply
 import com.bettertravel.domain.chat.SuggestedRoute
+import com.bettertravel.domain.map.GeoPoint
+import com.bettertravel.domain.routes.RouteStop
+import com.bettertravel.domain.speech.SpeechRecognizing
+import com.bettertravel.domain.speech.SpeechSynthesizing
 import com.bettertravel.domainmock.chat.AIChattingMock
+import com.bettertravel.domainmock.speech.SpeechRecognizingMock
+import com.bettertravel.domainmock.speech.SpeechSynthesizingMock
 import com.bettertravel.localization.GeneratedStringRepository
 import com.bettertravel.localization.StringRepository
 import com.bettertravel.presentation.ViewModelContext
@@ -27,6 +33,7 @@ import kotlin.test.assertTrue
 
 class AIChatViewModelTests {
     private val chatting = AIChattingMock()
+    private val synthesizer = SpeechSynthesizingMock()
     private val backDispatcher = BackDispatcher()
     private var stub: AIChatStubViewModel? = null
 
@@ -35,7 +42,11 @@ class AIChatViewModelTests {
             title = "Old Town & Courtyards",
             distanceKm = 3.2,
             durationMinutes = 165,
-            stops = listOf("Market Square", "St. John's"),
+            stops =
+                listOf(
+                    RouteStop("Market Square", GeoPoint(52.2497, 21.0122)),
+                    RouteStop("St. John's", GeoPoint(52.2490, 21.0137)),
+                ),
         )
 
     @BeforeTest
@@ -43,11 +54,13 @@ class AIChatViewModelTests {
         Deps.di =
             DI {
                 bindSingleton<AIChatting> { chatting }
+                bindSingleton<SpeechRecognizing> { SpeechRecognizingMock() }
+                bindSingleton<SpeechSynthesizing> { synthesizer }
                 bindSingleton<StringRepository> { GeneratedStringRepository { "en" } }
             }
     }
 
-    private fun createViewModel(): AIChatViewModelImpl {
+    private fun createViewModel(onPreviewRoute: (SuggestedRoute) -> Unit = { }): AIChatViewModelImpl {
         val lifecycle = LifecycleRegistry()
         lifecycle.resume()
         val context = DefaultComponentContext(lifecycle, backHandler = backDispatcher)
@@ -55,7 +68,7 @@ class AIChatViewModelTests {
             AIChatViewModelImpl(
                 AIChatViewModel.Parameters(
                     context = ViewModelContext(context),
-                    onPreviewRoute = { },
+                    onPreviewRoute = onPreviewRoute,
                     onStartRoute = { },
                 ),
             )
@@ -288,5 +301,85 @@ class AIChatViewModelTests {
         viewModel.onScrollPositionChanged(AIChatScrollPosition(index = 4, offset = 120))
 
         assertEquals(AIChatScrollPosition(index = 4, offset = 120), viewModel.scrollPosition)
+    }
+
+    @Test
+    fun testThat_replyArrivesInVoiceMode_itIsSpokenAloud() {
+        chatting.result = Result.success(ChatReply(text = "Try the courtyard café"))
+        val viewModel = createViewModel()
+        viewModel.inputViewModel.startVoice()
+
+        viewModel.voiceViewModel.select("Where can I get coffee?")
+
+        assertEquals(listOf("Try the courtyard café"), synthesizer.spokenTexts)
+        assertTrue(viewModel.voiceViewModel.isSpeaking.value)
+    }
+
+    @Test
+    fun testThat_replyArrivesInTextMode_itStaysSilent() {
+        chatting.result = Result.success(ChatReply(text = "Try the courtyard café"))
+        val viewModel = createViewModel()
+
+        viewModel.send("Where can I get coffee?")
+
+        assertTrue(synthesizer.spokenTexts.isEmpty())
+    }
+
+    @Test
+    fun testThat_userSpeaksWhileBettyTalks_speechIsInterrupted() {
+        chatting.result = Result.success(ChatReply(text = "Try the courtyard café"))
+        val viewModel = createViewModel()
+        viewModel.inputViewModel.startVoice()
+        viewModel.voiceViewModel.select("Where can I get coffee?")
+
+        viewModel.voiceViewModel.toggleListening()
+        viewModel.voiceViewModel.toggleListening()
+
+        assertFalse(synthesizer.isSpeaking)
+        assertFalse(viewModel.voiceViewModel.isSpeaking.value)
+    }
+
+    @Test
+    fun testThat_voiceModeIsClosedWhileSpeaking_speechStops() {
+        chatting.result = Result.success(ChatReply(text = "Try the courtyard café"))
+        val viewModel = createViewModel()
+        viewModel.inputViewModel.startVoice()
+        viewModel.voiceViewModel.select("Where can I get coffee?")
+
+        viewModel.voiceViewModel.close()
+
+        assertFalse(synthesizer.isSpeaking)
+    }
+
+    @Test
+    fun testThat_routeArrivesInVoiceMode_voiceModeOffersItAndPreviewLeavesVoiceMode() {
+        val previewed = mutableListOf<SuggestedRoute>()
+        chatting.result = Result.success(ChatReply(text = "Here is a loop", route = route))
+        val viewModel = createViewModel(onPreviewRoute = { previewed.add(it) })
+        viewModel.inputViewModel.startVoice()
+
+        viewModel.voiceViewModel.select("Plan a walk")
+
+        assertEquals(
+            "Old Town & Courtyards",
+            viewModel.voiceViewModel.route.value
+                ?.title,
+        )
+
+        viewModel.voiceViewModel.previewRoute()
+
+        assertEquals(listOf(route), previewed)
+        assertEquals(AIChatMode.Text, viewModel.mode.value)
+    }
+
+    @Test
+    fun testThat_noRouteInTheLatestReply_voiceModeOffersNothing() {
+        chatting.result = Result.success(ChatReply(text = "Just a tip"))
+        val viewModel = createViewModel()
+        viewModel.inputViewModel.startVoice()
+
+        viewModel.voiceViewModel.select("Where is coffee?")
+
+        assertNull(viewModel.voiceViewModel.route.value)
     }
 }

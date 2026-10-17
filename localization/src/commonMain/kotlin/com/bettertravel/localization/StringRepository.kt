@@ -13,10 +13,72 @@ interface StringRepository {
     val chatTitle: String
     val routeTitle: String
     val routeEmptyMessage: String
+    val routeError: String
+    val routeRetry: String
+    val routeLoading: String
+    val routePillTitle: String
+    val routeRegenerate: String
+    val routeWalkSuffix: String
+    val routeStopsSuffix: String
+    val routeStatTotalTime: String
+    val routeStatWalking: String
+    val routeStatCurated: String
+    val routeStatStops: String
+    val routeSheetHint: String
+    val routeStart: String
+    val routeStartNavigation: String
+    val routeSequenceTitle: String
+    val routeWalkable: String
+    val routeEditOrder: String
+    val routeAskTitle: String
+    val routeAskAction: String
+    val routeSelectedTag: String
+    val routeShowDetails: String
+    val routeChange: String
+    val routeDelete: String
+    val routeStopLabel: String
+    val routeFromPrevious: String
+    val routeStartPoint: String
+    val detailsTitle: String
+    val detailsStop: String
+    val detailsOf: String
+    val detailsReviews: String
+    val detailsIdealVisit: String
+    val detailsSecretEyebrow: String
+    val detailsSecretTag: String
+    val detailsEssentials: String
+    val detailsOpeningHours: String
+    val detailsOpenNow: String
+    val detailsAdmission: String
+    val detailsAddress: String
+    val detailsMap: String
+    val detailsHighlights: String
+    val detailsSurrounding: String
+    val detailsKeep: String
+    val detailsSwap: String
+    val detailsRemove: String
+    val detailsRemoveSaved: String
     val memoriesTitle: String
     val memoriesEmptyMessage: String
-    val drawerTitle: String
-    val drawerMessage: String
+    val memoriesSubtitle: String
+    val memoriesMomentsCaption: String
+    val memoriesFilterAll: String
+    val memoriesFilterFavorites: String
+    val memoriesRewalk: String
+    val memoriesSavedPlace: String
+    val memoriesVoiceTitle: String
+    val memoriesReflectionTitle: String
+    val drawerStatCities: String
+    val drawerStatRoutes: String
+    val drawerStatWalked: String
+    val drawerExploredCities: String
+    val drawerMapView: String
+    val drawerVisitedRoutes: String
+    val drawerSeeAll: String
+    val drawerVoiceGuide: String
+    val drawerOfflineMaps: String
+    val drawerLanguageUnits: String
+    val drawerSupport: String
     val chatInputPlaceholder: String
     val chatDateToday: String
     val chatErrorTitle: String
@@ -32,7 +94,12 @@ interface StringRepository {
     val unitMinuteShort: String
     val unitKilometerShort: String
     val voiceListening: String
+    val voiceSpeaking: String
     val voicePaused: String
+    val voiceNoSpeech: String
+    val voiceErrorPermission: String
+    val voiceErrorUnavailable: String
+    val voiceErrorFailed: String
     val voiceTranscriptTitle: String
     val voiceLive: String
     val voiceSpeakerYou: String
@@ -139,11 +206,371 @@ class GeneratedStringRepository(
             }
         }
 
+    override val routeError: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Impossible de calculer l'itinéraire à pied"
+                else -> "Could not build the walking route"
+            }
+        }
+
+    override val routeRetry: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Réessayer"
+                else -> "Try again"
+            }
+        }
+
+    override val routeLoading: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Betty prépare un itinéraire pour vous"
+                else -> "Betty is preparing a route for you"
+            }
+        }
+
+    override val routePillTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Boucle optimale"
+                else -> "Optimal Loop"
+            }
+        }
+
+    override val routeRegenerate: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Régénérer"
+                else -> "Regenerate"
+            }
+        }
+
+    override val routeWalkSuffix: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "de marche"
+                else -> "walk"
+            }
+        }
+
+    override val routeStopsSuffix: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "étapes"
+                else -> "stops"
+            }
+        }
+
+    override val routeStatTotalTime: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Durée totale"
+                else -> "Total time"
+            }
+        }
+
+    override val routeStatWalking: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Marche"
+                else -> "Walking"
+            }
+        }
+
+    override val routeStatCurated: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Sélection"
+                else -> "Curated"
+            }
+        }
+
+    override val routeStatStops: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Étapes"
+                else -> "Stops"
+            }
+        }
+
+    override val routeSheetHint: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Touchez ou balayez vers le haut pour les étapes"
+                else -> "Tap or swipe up for detailed stops"
+            }
+        }
+
+    override val routeStart: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Démarrer"
+                else -> "Start"
+            }
+        }
+
+    override val routeStartNavigation: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Démarrer la navigation"
+                else -> "Start Route Navigation"
+            }
+        }
+
+    override val routeSequenceTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Programme du jour"
+                else -> "Today's Sequence"
+            }
+        }
+
+    override val routeWalkable: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Faisable à pied"
+                else -> "Walkable"
+            }
+        }
+
+    override val routeEditOrder: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Modifier l'ordre"
+                else -> "Edit order"
+            }
+        }
+
+    override val routeAskTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Des changements ?"
+                else -> "Need changes?"
+            }
+        }
+
+    override val routeAskAction: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Demandez-moi !"
+                else -> "Ask me!"
+            }
+        }
+
+    override val routeSelectedTag: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Sélectionné"
+                else -> "Selected"
+            }
+        }
+
+    override val routeShowDetails: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Voir les détails"
+                else -> "Show details"
+            }
+        }
+
+    override val routeChange: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Modifier"
+                else -> "Change"
+            }
+        }
+
+    override val routeDelete: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Supprimer"
+                else -> "Delete"
+            }
+        }
+
+    override val routeStopLabel: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Étape"
+                else -> "Stop"
+            }
+        }
+
+    override val routeFromPrevious: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "depuis l'étape précédente"
+                else -> "from previous stop"
+            }
+        }
+
+    override val routeStartPoint: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Point de départ"
+                else -> "Starting point"
+            }
+        }
+
+    override val detailsTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Navigation en direct"
+                else -> "Live Navigation Hud"
+            }
+        }
+
+    override val detailsStop: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Étape"
+                else -> "Stop"
+            }
+        }
+
+    override val detailsOf: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "sur"
+                else -> "of"
+            }
+        }
+
+    override val detailsReviews: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "avis"
+                else -> "reviews"
+            }
+        }
+
+    override val detailsIdealVisit: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Visite idéale"
+                else -> "Ideal visit"
+            }
+        }
+
+    override val detailsSecretEyebrow: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Secret de Betty"
+                else -> "Betty Secret"
+            }
+        }
+
+    override val detailsSecretTag: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Flash historique"
+                else -> "Historical Flash"
+            }
+        }
+
+    override val detailsEssentials: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Infos pratiques"
+                else -> "Visiting Essentials"
+            }
+        }
+
+    override val detailsOpeningHours: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Horaires"
+                else -> "Opening Hours"
+            }
+        }
+
+    override val detailsOpenNow: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Ouvert"
+                else -> "Open Now"
+            }
+        }
+
+    override val detailsAdmission: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Entrée et tarifs"
+                else -> "Admission & Fees"
+            }
+        }
+
+    override val detailsAddress: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Adresse"
+                else -> "Address"
+            }
+        }
+
+    override val detailsMap: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Carte"
+                else -> "Map"
+            }
+        }
+
+    override val detailsHighlights: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "À ne pas manquer"
+                else -> "Highlights & What to See"
+            }
+        }
+
+    override val detailsSurrounding: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Balade alentour"
+                else -> "Surrounding Walk"
+            }
+        }
+
+    override val detailsKeep: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Garder dans l'itinéraire"
+                else -> "Keep in Route"
+            }
+        }
+
+    override val detailsSwap: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Remplacer"
+                else -> "Swap"
+            }
+        }
+
+    override val detailsRemove: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Retirer de cette balade"
+                else -> "Remove from this walk"
+            }
+        }
+
+    override val detailsRemoveSaved: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Retirer des favoris"
+                else -> "Remove from favorites"
+            }
+        }
+
     override val memoriesTitle: String
         get() {
             return when (languageCode()) {
-                "fr" -> "Souvenirs"
-                else -> "Memories"
+                "fr" -> "Souvenirs BetterTravel"
+                else -> "BetterTravel Memories"
             }
         }
 
@@ -155,19 +582,155 @@ class GeneratedStringRepository(
             }
         }
 
-    override val drawerTitle: String
+    override val memoriesSubtitle: String
         get() {
             return when (languageCode()) {
-                "fr" -> "Menu"
-                else -> "Menu"
+                "fr" -> "Revivez vos balades et vos chemins partagés"
+                else -> "Relive your wanderlust and shared paths"
             }
         }
 
-    override val drawerMessage: String
+    override val memoriesMomentsCaption: String
         get() {
             return when (languageCode()) {
-                "fr" -> "Votre profil, vos villes et vos réglages apparaîtront ici."
-                else -> "Your profile, cities and settings will appear here."
+                "fr" -> "Moments capturés"
+                else -> "Moments Captured"
+            }
+        }
+
+    override val memoriesFilterAll: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Tout"
+                else -> "All"
+            }
+        }
+
+    override val memoriesFilterFavorites: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Favoris"
+                else -> "Favorites"
+            }
+        }
+
+    override val memoriesRewalk: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Refaire"
+                else -> "Re-walk"
+            }
+        }
+
+    override val memoriesSavedPlace: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Lieu enregistré"
+                else -> "Saved place"
+            }
+        }
+
+    override val memoriesVoiceTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Souvenir vocal de Betty"
+                else -> "Betty Voice Memory"
+            }
+        }
+
+    override val memoriesReflectionTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Réflexion du voyageur"
+                else -> "Traveler Reflection"
+            }
+        }
+
+    override val drawerStatCities: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Villes"
+                else -> "Cities"
+            }
+        }
+
+    override val drawerStatRoutes: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Itinéraires"
+                else -> "Routes"
+            }
+        }
+
+    override val drawerStatWalked: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Marché"
+                else -> "Walked"
+            }
+        }
+
+    override val drawerExploredCities: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Villes explorées"
+                else -> "Explored cities"
+            }
+        }
+
+    override val drawerMapView: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Vue carte"
+                else -> "Map view"
+            }
+        }
+
+    override val drawerVisitedRoutes: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Itinéraires visités"
+                else -> "Visited routes"
+            }
+        }
+
+    override val drawerSeeAll: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Tout voir"
+                else -> "See All"
+            }
+        }
+
+    override val drawerVoiceGuide: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Guide vocal Nimbus"
+                else -> "Nimbus Voice Guide"
+            }
+        }
+
+    override val drawerOfflineMaps: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Cartes hors ligne"
+                else -> "Offline Maps"
+            }
+        }
+
+    override val drawerLanguageUnits: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Langue et unités"
+                else -> "Language & Units"
+            }
+        }
+
+    override val drawerSupport: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Aide et conseils de Betty"
+                else -> "Support & Betty Tips"
             }
         }
 
@@ -291,11 +854,51 @@ class GeneratedStringRepository(
             }
         }
 
+    override val voiceSpeaking: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Betty parle..."
+                else -> "Betty is speaking..."
+            }
+        }
+
     override val voicePaused: String
         get() {
             return when (languageCode()) {
                 "fr" -> "Touchez le micro pour parler"
                 else -> "Tap the mic to talk"
+            }
+        }
+
+    override val voiceNoSpeech: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Je n'ai pas compris. Touchez le micro pour réessayer."
+                else -> "I didn't catch that. Tap the mic to try again."
+            }
+        }
+
+    override val voiceErrorPermission: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Autorisez le micro et la reconnaissance vocale dans les Réglages."
+                else -> "Allow microphone and speech access in Settings."
+            }
+        }
+
+    override val voiceErrorUnavailable: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "La reconnaissance vocale n'est pas disponible sur cet appareil."
+                else -> "Speech recognition isn't available on this device."
+            }
+        }
+
+    override val voiceErrorFailed: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Une erreur s'est produite. Touchez le micro pour réessayer."
+                else -> "Something went wrong. Tap the mic to try again."
             }
         }
 

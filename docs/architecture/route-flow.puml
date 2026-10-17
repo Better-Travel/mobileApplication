@@ -1,0 +1,251 @@
+@startuml route-flow
+title Route flow: chat suggestion -> Route tab -> stop details -> Memories
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam nodesep 40
+skinparam ranksep 60
+hide empty members
+
+package "domain" #F2F3FF {
+    class GeoPoint <<data>> {
+        latitude: Double
+        longitude: Double
+        distanceMetersTo(other): Double
+    }
+    class RouteStop <<data>> {
+        name: String
+        location: GeoPoint
+    }
+    class SuggestedRoute <<data>> {
+        title: String
+        distanceKm: Double
+        durationMinutes: Int
+        stops: List<RouteStop>
+    }
+    class MapTile <<data>> {
+        zoom: Int
+        x: Int
+        y: Int
+    }
+    interface AIChatting {
+        reply(history): Single<ChatReply>
+    }
+    interface WalkingRouting {
+        walkingPath(waypoints): Single<List<GeoPoint>>
+    }
+    class BookmarkedPlace <<data>> {
+        id: String
+        name: String
+        routeTitle: String
+        location: GeoPoint
+        savedAtMillis: Long
+    }
+    interface PlaceBookmarking {
+        bookmarks: BehaviorObservable<List<BookmarkedPlace>>
+        add(place): Completable
+        remove(id): Completable
+    }
+    interface MapTileLoading {
+        attribution: String
+        loadTile(tile): Single<ByteArray>
+    }
+
+    SuggestedRoute *-- "2..*" RouteStop
+    PlaceBookmarking o-- BookmarkedPlace
+    RouteStop *-- GeoPoint
+}
+
+package "networking" #FFF3EE {
+    class HttpBasedAIChatting
+    class HttpBasedWalkingRouting <<Valhalla, pedestrian>>
+    class HttpBasedMapTileLoading <<CARTO / OSM tiles>>
+    class PolylineDecoder <<polyline6>>
+
+    HttpBasedWalkingRouting ..> PolylineDecoder
+}
+
+package "database" #FDF4FF {
+    class SqlDelightPlaceBookmarkStore <<SQLDelight, schema v2>>
+}
+
+package "presentation" #EEF6FF {
+    interface RootComponent {
+        stack: Value<ChildStack>
+    }
+    class DefaultRootComponent {
+        - main: DefaultMainComponent
+        push(StopDetails)
+        pop()
+    }
+    interface MainComponent {
+        children: Value<ChildStack>
+        selectTab(tab)
+        openDrawer()
+    }
+    class DefaultMainComponent {
+        - previewedRouteSubject: BehaviorSubject<SuggestedRoute?>
+        previewRoute(route)
+        removeStop(index)
+    }
+
+    interface MemoriesViewModel {
+        summary, filters, items
+        selectFilter(filter)
+        rewalk(walk)
+        removeBookmark(place)
+    }
+    class MemoriesViewModelImpl <<mock walks + bookmarks>>
+    interface AIChatViewModel
+    class AIChatViewModelImpl {
+        createRouteCard(route)
+    }
+
+    interface RouteViewModel {
+        routeTitle: BehaviorObservable<String?>
+        summary: BehaviorObservable<RouteSummary?>
+        stops: BehaviorObservable<List<RouteStop>>
+        stopDetails: BehaviorObservable<List<RouteStopDetails>>
+        selectedStop: BehaviorObservable<RouteSelectedStop?>
+        path: BehaviorObservable<List<GeoPoint>>
+        isLoading: Observable<Boolean>
+        hasError: BehaviorObservable<Boolean>
+        loadTile(tile): Single<ByteArray>
+        regenerate()
+        start()
+        askBetty()
+        selectStop(order)
+        clearSelection()
+        showDetails(order)
+        deleteSelectedStop()
+    }
+    class RouteViewModelImpl {
+        - requestPath()
+        - updateSelection()
+    }
+    class RouteSummary <<data>>
+    class RouteStopDetails <<data>>
+    class RouteSelectedStop <<data>>
+    class StopDetailsRequest <<data>> {
+        order: Int
+        total: Int
+        name: String
+        routeTitle: String
+        location: GeoPoint
+    }
+
+    interface StopDetailsViewModel {
+        back()
+        keep()
+        swap()
+        remove()
+        toggleBookmark()
+    }
+    class StopDetailsViewModelImpl <<mock content>>
+
+    RootComponent <|.. DefaultRootComponent
+    MainComponent <|.. DefaultMainComponent
+    AIChatViewModel <|.. AIChatViewModelImpl
+    RouteViewModel <|.. RouteViewModelImpl
+    StopDetailsViewModel <|.. StopDetailsViewModelImpl
+    MemoriesViewModel <|.. MemoriesViewModelImpl
+
+    DefaultRootComponent *-- DefaultMainComponent : Main child
+    DefaultRootComponent *-- StopDetailsViewModelImpl : StopDetails child
+    DefaultMainComponent *-- AIChatViewModelImpl : Discover tab
+    DefaultMainComponent *-- RouteViewModelImpl : Route tab
+    DefaultMainComponent *-- MemoriesViewModelImpl : Memories tab
+    RouteViewModelImpl ..> RouteSummary
+    RouteViewModelImpl ..> RouteStopDetails
+    RouteViewModelImpl ..> RouteSelectedStop
+    RouteViewModelImpl ..> StopDetailsRequest : builds
+    StopDetailsViewModelImpl o-- StopDetailsRequest
+}
+
+package "ui" #F4FFF2 {
+    class RootContent
+    class MainScreen
+    class AIChatContent
+    class RouteScreen {
+        RouteContent
+        RouteSelectedCard
+        RouteTopBar
+    }
+    class BtMap <<Compose-drawn tiles>> {
+        markers, path, labels
+        selectedIndex
+        onMarkerClick
+        onBackgroundTap
+    }
+    class BtExpandableSheet
+    class StopDetailsScreen
+    class MemoriesScreen
+
+    RootContent --> MainScreen : Child.Main
+    RootContent --> StopDetailsScreen : Child.StopDetails
+    MainScreen --> AIChatContent : Discover
+    MainScreen --> RouteScreen : Route
+    MainScreen --> MemoriesScreen : Memories
+    RouteScreen *-- BtMap
+    RouteScreen *-- BtExpandableSheet
+}
+
+package "application" #FFFBEA {
+    class SharedModule <<Kodein bindings>>
+    class BuildSecrets <<generated from local.properties>>
+}
+
+package "mockServer" #EEEEEE {
+    class "POST /chat" as ChatEndpoint
+}
+
+' Dependency inversion: implementations behind domain interfaces
+AIChatting <|.. HttpBasedAIChatting
+WalkingRouting <|.. HttpBasedWalkingRouting
+MapTileLoading <|.. HttpBasedMapTileLoading
+PlaceBookmarking <|.. SqlDelightPlaceBookmarkStore
+HttpBasedAIChatting ..> ChatEndpoint : HTTP, stops with lat/lon
+SharedModule ..> HttpBasedWalkingRouting : binds
+SharedModule ..> HttpBasedMapTileLoading : binds
+SharedModule ..> BuildSecrets : CARTO key
+
+' ViewModels use domain via Deps
+AIChatViewModelImpl ..> AIChatting : Deps
+RouteViewModelImpl ..> WalkingRouting : Deps
+RouteViewModelImpl ..> MapTileLoading : Deps
+
+StopDetailsViewModelImpl ..> PlaceBookmarking : Deps, toggleBookmark()
+MemoriesViewModelImpl ..> PlaceBookmarking : Deps, observes bookmarks
+MemoriesViewModelImpl ..> DefaultMainComponent : onRewalk(route) = previewRoute
+SharedModule ..> SqlDelightPlaceBookmarkStore : binds
+
+' UI observes ViewModel interfaces only
+AIChatContent ..> AIChatViewModel
+RouteScreen ..> RouteViewModel
+StopDetailsScreen ..> StopDetailsViewModel
+MemoriesScreen ..> MemoriesViewModel
+
+' Callbacks that move the route between screens
+AIChatViewModelImpl ..> DefaultMainComponent : onPreviewRoute(route)
+DefaultMainComponent ..> RouteViewModelImpl : route (BehaviorObservable)
+RouteViewModelImpl ..> DefaultMainComponent : onDeleteStop(index), onAskBetty()
+RouteViewModelImpl ..> DefaultRootComponent : onShowDetails(request)
+StopDetailsViewModelImpl ..> DefaultRootComponent : onBack(), onSwap(), onRemove(index)
+DefaultRootComponent ..> DefaultMainComponent : removeStop(index), selectTab(Discover)
+
+note bottom of DefaultMainComponent
+  Owns the previewed route.
+  1. Chat reply carries a SuggestedRoute.
+  2. "Preview on map" -> previewRoute(): store route, select Route tab.
+  3. RouteViewModelImpl observes it, asks WalkingRouting for the path.
+  4. Deleting a stop edits the stored route (min 2 stops),
+     so the Route tab reloads the path automatically.
+end note
+
+note bottom of RouteViewModelImpl
+  Map tiles are loaded through the ViewModel
+  (loadTile) so ui never touches networking.
+  Stop details content is mock data (TODO).
+end note
+@enduml
