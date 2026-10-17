@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="routes_list_title">Your routes</string>
+    <string name="routes_list_empty">No routes yet</string>
+    <string name="routes_list_error">Something went wrong while loading your routes</string>
+    <string name="routes_list_retry">Try again</string>
+</resources>

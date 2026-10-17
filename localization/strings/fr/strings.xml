@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="routes_list_title">Vos itinéraires</string>
+    <string name="routes_list_empty">Aucun itinéraire pour le moment</string>
+    <string name="routes_list_error">Une erreur est survenue lors du chargement de vos itinéraires</string>
+    <string name="routes_list_retry">Réessayer</string>
+</resources>

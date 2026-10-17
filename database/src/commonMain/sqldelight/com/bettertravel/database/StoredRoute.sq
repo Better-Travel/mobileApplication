@@ -1,0 +1,18 @@
+CREATE TABLE StoredRoute (
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    city TEXT NOT NULL,
+    distanceKm REAL NOT NULL,
+    durationMinutes INTEGER NOT NULL,
+    stopsCount INTEGER NOT NULL
+);
+
+selectAll:
+SELECT * FROM StoredRoute;
+
+insertOrReplace:
+INSERT OR REPLACE INTO StoredRoute(id, title, city, distanceKm, durationMinutes, stopsCount)
+VALUES (?, ?, ?, ?, ?, ?);
+
+deleteAll:
+DELETE FROM StoredRoute;
