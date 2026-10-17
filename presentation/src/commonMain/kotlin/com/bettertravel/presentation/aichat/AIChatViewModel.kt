@@ -12,7 +12,6 @@ enum class AIChatMode {
 
 interface AIChatViewModel : ViewModel {
     val title: String
-    val status: String
     val items: BehaviorObservable<List<Item>>
     val loading: BehaviorObservable<Boolean>
     val stub: Observable<AIChatStubViewModel?>
@@ -20,8 +19,6 @@ interface AIChatViewModel : ViewModel {
 
     val inputViewModel: AIChatInputViewModel
     val voiceViewModel: AIVoiceViewModel
-
-    fun back()
 
     sealed interface Item {
         val id: String
@@ -49,7 +46,6 @@ interface AIChatViewModel : ViewModel {
 
     data class Parameters(
         val context: ViewModelContext,
-        val onBack: () -> Unit,
         val onPreviewRoute: () -> Unit,
         val onStartRoute: () -> Unit,
     )

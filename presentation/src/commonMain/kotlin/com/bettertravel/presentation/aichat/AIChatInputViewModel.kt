@@ -6,7 +6,7 @@ import com.bettertravel.presentation.ViewModel
 import com.bettertravel.presentation.ViewModelContext
 
 interface AIChatInputViewModel : ViewModel {
-    val placeholder: String
+    val placeholder: Observable<String>
     val text: BehaviorObservable<String>
     val canSend: Observable<Boolean>
 
@@ -19,6 +19,7 @@ interface AIChatInputViewModel : ViewModel {
     data class Parameters(
         val context: ViewModelContext,
         val isSending: Observable<Boolean>,
+        val hasMessages: Observable<Boolean>,
         val onSend: (String) -> Unit,
         val onVoice: () -> Unit,
     )

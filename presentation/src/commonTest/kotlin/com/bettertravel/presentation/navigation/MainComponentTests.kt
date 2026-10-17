@@ -1,5 +1,6 @@
 package com.bettertravel.presentation.navigation
 
+import com.bettertravel.presentation.aichat.AIChatMode
 import com.bettertravel.presentation.createTestComponentContext
 import com.bettertravel.presentation.installTestDeps
 import kotlin.test.BeforeTest
@@ -9,8 +10,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class MainComponentTests {
-    private var openChatCount = 0
-
     @BeforeTest
     fun setUp() {
         installTestDeps()
@@ -19,7 +18,8 @@ class MainComponentTests {
     private fun createComponent(): DefaultMainComponent {
         return DefaultMainComponent(
             componentContext = createTestComponentContext(),
-            onOpenChat = { openChatCount += 1 },
+            onPreviewRoute = { },
+            onStartRoute = { },
         )
     }
 
@@ -71,12 +71,15 @@ class MainComponentTests {
     }
 
     @Test
-    fun testThat_discoverOpensChat_openChatCallbackIsInvoked() {
+    fun testThat_discoverTabIsActive_itHostsTheChat() {
         val component = createComponent()
+
         val discover = component.children.value.active.instance as MainComponent.Child.Discover
 
-        discover.viewModel.openChat()
-
-        assertEquals(1, openChatCount)
+        assertEquals(AIChatMode.Text, discover.viewModel.mode.value)
+        assertTrue(
+            discover.viewModel.items.value
+                .isEmpty(),
+        )
     }
 }

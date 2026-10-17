@@ -2,6 +2,7 @@ package com.bettertravel.presentation.aichat
 
 import com.arkivanov.essenty.backhandler.BackCallback
 import com.badoo.reaktive.observable.Observable
+import com.badoo.reaktive.observable.map
 import com.badoo.reaktive.observable.subscribe
 import com.badoo.reaktive.single.subscribe
 import com.badoo.reaktive.subject.behavior.BehaviorObservable
@@ -38,7 +39,6 @@ class AIChatViewModelImpl(
     private val voiceBackCallback = BackCallback(isEnabled = false) { closeVoice() }
 
     override val title: String = strings.chatTitle
-    override val status: String = strings.chatStatus
     override val items: BehaviorObservable<List<AIChatViewModel.Item>> = itemsSubject
     override val loading: BehaviorObservable<Boolean> = loadingSubject
     override val stub: Observable<AIChatStubViewModel?> = stubSubject
@@ -49,6 +49,7 @@ class AIChatViewModelImpl(
             AIChatInputViewModel.Parameters(
                 context = parameters.context,
                 isSending = loadingSubject,
+                hasMessages = itemsSubject.map { items -> items.isNotEmpty() },
                 onSend = { text -> send(text) },
                 onVoice = { openVoice() },
             ),
@@ -70,10 +71,6 @@ class AIChatViewModelImpl(
             .subscribe(onNext = { active -> loadingSubject.onNext(active) })
             .disposeWhenClosed()
         showEmptyStub()
-    }
-
-    override fun back() {
-        parameters.onBack()
     }
 
     private fun openVoice() {
@@ -225,16 +222,10 @@ class AIChatViewModelImpl(
         stubSubject.onNext(
             AIChatStubViewModelImpl(
                 title = strings.chatEmptyTitle,
+                accentTitle = strings.chatEmptyTitleAccent,
                 message = strings.chatEmptyMessage,
                 actionTitle = null,
-                suggestions =
-                    listOf(
-                        strings.chatEmptySuggestionPlan,
-                        strings.chatEmptySuggestionCafe,
-                        strings.chatEmptySuggestionScenic,
-                    ),
                 onAction = { },
-                onSuggestion = { suggestion -> send(suggestion) },
             ),
         )
     }
@@ -243,14 +234,13 @@ class AIChatViewModelImpl(
         stubSubject.onNext(
             AIChatStubViewModelImpl(
                 title = strings.chatErrorTitle,
+                accentTitle = null,
                 message = strings.chatErrorMessage,
                 actionTitle = strings.chatRetry,
-                suggestions = emptyList(),
                 onAction = {
                     stubSubject.onNext(null)
                     requestReply()
                 },
-                onSuggestion = { },
             ),
         )
     }

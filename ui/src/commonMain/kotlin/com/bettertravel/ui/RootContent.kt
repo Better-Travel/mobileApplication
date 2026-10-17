@@ -6,7 +6,6 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.bettertravel.presentation.navigation.RootComponent
-import com.bettertravel.ui.aichat.AIChatScreen
 import com.bettertravel.ui.designsystem.layout.BtSafeArea
 import com.bettertravel.ui.designsystem.theme.BetterTravelTheme
 import com.bettertravel.ui.main.MainScreen
@@ -19,7 +18,6 @@ fun RootContent(root: RootComponent) {
             Children(stack = root.stack, animation = stackAnimation(slide())) { created ->
                 when (val child = created.instance) {
                     is RootComponent.Child.Main -> MainScreen(child.component)
-                    is RootComponent.Child.Chat -> AIChatScreen(child.viewModel)
                 }
             }
         }

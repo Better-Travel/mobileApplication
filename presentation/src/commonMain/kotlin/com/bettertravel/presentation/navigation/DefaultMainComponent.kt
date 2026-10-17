@@ -11,8 +11,8 @@ import com.badoo.reaktive.subject.behavior.BehaviorSubject
 import com.bettertravel.common.Deps
 import com.bettertravel.localization.StringRepository
 import com.bettertravel.presentation.ViewModelContext
-import com.bettertravel.presentation.discover.DiscoverViewModel
-import com.bettertravel.presentation.discover.DiscoverViewModelImpl
+import com.bettertravel.presentation.aichat.AIChatViewModel
+import com.bettertravel.presentation.aichat.AIChatViewModelImpl
 import com.bettertravel.presentation.memories.MemoriesViewModel
 import com.bettertravel.presentation.memories.MemoriesViewModelImpl
 import com.bettertravel.presentation.route.RouteViewModel
@@ -21,7 +21,8 @@ import kotlinx.serialization.Serializable
 
 class DefaultMainComponent(
     componentContext: ComponentContext,
-    private val onOpenChat: () -> Unit,
+    private val onPreviewRoute: () -> Unit,
+    private val onStartRoute: () -> Unit,
 ) : MainComponent,
     ComponentContext by componentContext {
     private val strings: StringRepository = Deps.instance()
@@ -77,8 +78,13 @@ class DefaultMainComponent(
         val viewModelContext = ViewModelContext(context)
         return when (config) {
             Config.Discover -> {
-                val parameters = DiscoverViewModel.Parameters(viewModelContext, onOpenChat)
-                MainComponent.Child.Discover(DiscoverViewModelImpl(parameters))
+                val parameters =
+                    AIChatViewModel.Parameters(
+                        context = viewModelContext,
+                        onPreviewRoute = onPreviewRoute,
+                        onStartRoute = onStartRoute,
+                    )
+                MainComponent.Child.Discover(AIChatViewModelImpl(parameters))
             }
 
             Config.Route -> {

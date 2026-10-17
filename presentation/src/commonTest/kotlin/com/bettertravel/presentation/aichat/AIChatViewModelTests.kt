@@ -28,7 +28,6 @@ import kotlin.test.assertTrue
 class AIChatViewModelTests {
     private val chatting = AIChattingMock()
     private val backDispatcher = BackDispatcher()
-    private var backCount = 0
     private var stub: AIChatStubViewModel? = null
 
     private val route =
@@ -56,7 +55,6 @@ class AIChatViewModelTests {
             AIChatViewModelImpl(
                 AIChatViewModel.Parameters(
                     context = ViewModelContext(context),
-                    onBack = { backCount += 1 },
                     onPreviewRoute = { },
                     onStartRoute = { },
                 ),
@@ -75,12 +73,26 @@ class AIChatViewModelTests {
     }
 
     @Test
-    fun testThat_chatIsOpened_emptyStubIsShownWithSuggestions() {
+    fun testThat_chatIsOpened_emptyStubShowsTheDiscoverLanding() {
         val viewModel = createViewModel()
 
-        assertEquals("Ask Betty anything", stub?.title)
-        assertEquals(3, stub?.suggestions?.size)
+        assertEquals("Let's plan your trip", stub?.title)
+        assertEquals("Together", stub?.accentTitle)
+        assertNull(stub?.actionTitle)
         assertTrue(viewModel.items.value.isEmpty())
+    }
+
+    @Test
+    fun testThat_noMessagesYet_placeholderAsksWhereAndHowLong() {
+        val viewModel = createViewModel()
+        var placeholder = ""
+        viewModel.inputViewModel.placeholder.observe { placeholder = it }
+
+        assertEquals("Tell BetterTravel where & how long...", placeholder)
+
+        viewModel.send("Hello")
+
+        assertEquals("Ask Betty anything or adjust route...", placeholder)
     }
 
     @Test
@@ -179,16 +191,6 @@ class AIChatViewModelTests {
     }
 
     @Test
-    fun testThat_emptyStubSuggestionIsSelected_itIsSentAsUserMessage() {
-        val viewModel = createViewModel()
-
-        stub?.select("Plan 3 hours in Warsaw")
-
-        val first = viewModel.items.value[1] as AIChatViewModel.Item.UserMessage
-        assertEquals("Plan 3 hours in Warsaw", first.viewModel.text)
-    }
-
-    @Test
     fun testThat_voiceIsStarted_modeIsVoiceAndMicIsListening() {
         val viewModel = createViewModel()
 
@@ -240,14 +242,5 @@ class AIChatViewModelTests {
         val transcript = viewModel.voiceViewModel.transcript.value
         assertEquals(listOf("You", "Betty"), transcript.map { it.speaker })
         assertEquals("About 300 meters", transcript.last().text)
-    }
-
-    @Test
-    fun testThat_backIsRequested_parametersCallbackIsInvoked() {
-        val viewModel = createViewModel()
-
-        viewModel.back()
-
-        assertEquals(1, backCount)
     }
 }

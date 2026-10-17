@@ -67,23 +67,21 @@ internal object PreviewAIChat {
 
     fun emptyStub(): AIChatStubViewModel {
         return AIChatStubViewModelImpl(
-            title = "Ask Betty anything",
-            message = "Tell Betty where you are and how long you have, and she will plan a walk for you.",
+            title = "Let's plan your trip",
+            accentTitle = "Together",
+            message = "Meet Betty, your pocket-sized explorer ready to curate custom journeys in seconds.",
             actionTitle = null,
-            suggestions = listOf("Plan 3 hours in Warsaw", "Find a quiet café nearby"),
             onAction = { },
-            onSuggestion = { },
         )
     }
 
     fun errorStub(): AIChatStubViewModel {
         return AIChatStubViewModelImpl(
             title = "Betty lost the trail",
+            accentTitle = null,
             message = "Something went wrong. Check your connection and try again.",
             actionTitle = "Try again",
-            suggestions = emptyList(),
             onAction = { },
-            onSuggestion = { },
         )
     }
 
@@ -100,7 +98,7 @@ internal object PreviewAIChat {
 }
 
 private class PreviewInputViewModel : AIChatInputViewModel {
-    override val placeholder: String = "Ask Betty anything or adjust route..."
+    override val placeholder: Observable<String> = observableOf("Tell BetterTravel where & how long...")
     override val text: BehaviorObservable<String> = BehaviorSubject("")
     override val canSend: Observable<Boolean> = observableOf(true)
 
@@ -159,7 +157,6 @@ private class PreviewAIChatViewModel(
     initialMode: AIChatMode,
 ) : AIChatViewModel {
     override val title: String = "BetterTravel"
-    override val status: String = "with Betty"
     override val items: BehaviorObservable<List<AIChatViewModel.Item>> =
         BehaviorSubject(if (withMessages) PreviewAIChat.items() else emptyList())
     override val loading: BehaviorObservable<Boolean> = BehaviorSubject(false)
@@ -168,7 +165,4 @@ private class PreviewAIChatViewModel(
     override val mode: BehaviorObservable<AIChatMode> = BehaviorSubject(initialMode)
     override val inputViewModel: AIChatInputViewModel = PreviewInputViewModel()
     override val voiceViewModel: AIVoiceViewModel = PreviewVoiceViewModel(withTranscript = withMessages)
-
-    override fun back() {
-    }
 }

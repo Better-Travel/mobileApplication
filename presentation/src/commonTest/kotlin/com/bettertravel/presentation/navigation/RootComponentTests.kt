@@ -13,39 +13,19 @@ class RootComponentTests {
         installTestDeps()
     }
 
-    private fun activeChild(root: DefaultRootComponent): RootComponent.Child {
-        return root.stack.value.active.instance
+    @Test
+    fun testThat_rootIsCreated_mainIsTheOnlyDestination() {
+        val root = DefaultRootComponent(createTestComponentContext())
+
+        assertTrue(root.stack.value.active.instance is RootComponent.Child.Main)
+        assertEquals(1, root.stack.value.items.size)
     }
 
     @Test
-    fun testThat_rootIsCreated_mainIsActive() {
+    fun testThat_rootIsCreated_discoverTabIsActive() {
         val root = DefaultRootComponent(createTestComponentContext())
+        val main = root.stack.value.active.instance as RootComponent.Child.Main
 
-        assertTrue(activeChild(root) is RootComponent.Child.Main)
-    }
-
-    @Test
-    fun testThat_discoverOpensChat_chatIsPushedOnTopOfMain() {
-        val root = DefaultRootComponent(createTestComponentContext())
-        val main = activeChild(root) as RootComponent.Child.Main
-        val discover = main.component.children.value.active.instance as MainComponent.Child.Discover
-
-        discover.viewModel.openChat()
-
-        assertTrue(activeChild(root) is RootComponent.Child.Chat)
-        assertEquals(2, root.stack.value.items.size)
-    }
-
-    @Test
-    fun testThat_chatGoesBack_mainIsActiveAgain() {
-        val root = DefaultRootComponent(createTestComponentContext())
-        val main = activeChild(root) as RootComponent.Child.Main
-        val discover = main.component.children.value.active.instance as MainComponent.Child.Discover
-        discover.viewModel.openChat()
-        val chat = activeChild(root) as RootComponent.Child.Chat
-
-        chat.viewModel.back()
-
-        assertTrue(activeChild(root) is RootComponent.Child.Main)
+        assertEquals(MainTab.Discover, main.component.children.value.active.instance.tab)
     }
 }

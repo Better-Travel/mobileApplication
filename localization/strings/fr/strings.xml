@@ -8,25 +8,15 @@
     <string name="tab_discover">Découvrir</string>
     <string name="tab_route">Itinéraire</string>
     <string name="tab_memories">Souvenirs</string>
-    <string name="discover_title_prefix">Planifions votre voyage</string>
-    <string name="discover_title_accent">Ensemble</string>
-    <string name="discover_subtitle">Voici Betty, votre explorateur de poche, prêt à créer des parcours sur mesure en quelques secondes.</string>
-    <string name="discover_input_placeholder">Dites à BetterTravel où et combien de temps...</string>
     <string name="chat_title">BetterTravel</string>
-    <string name="chat_status">avec Betty</string>
     <string name="route_title">Itinéraire</string>
     <string name="route_empty_message">Votre itinéraire apparaîtra ici dès que Betty l'aura planifié.</string>
     <string name="memories_title">Souvenirs</string>
     <string name="memories_empty_message">Vos balades enregistrées apparaîtront ici.</string>
     <string name="drawer_title">Menu</string>
     <string name="drawer_message">Votre profil, vos villes et vos réglages apparaîtront ici.</string>
-    <string name="chat_empty_message">Dites à Betty où vous êtes et combien de temps vous avez, elle planifiera une balade pour vous.</string>
     <string name="chat_input_placeholder">Demandez n'importe quoi à Betty ou ajustez l'itinéraire...</string>
     <string name="chat_date_today">Aujourd'hui</string>
-    <string name="chat_empty_title">Demandez n'importe quoi à Betty</string>
-    <string name="chat_empty_suggestion_plan">Planifier 3 heures à Varsovie</string>
-    <string name="chat_empty_suggestion_cafe">Trouver un café tranquille à proximité</string>
-    <string name="chat_empty_suggestion_scenic">Balade pittoresque avec sites historiques</string>
     <string name="chat_error_title">Betty a perdu la piste</string>
     <string name="chat_error_message">Une erreur est survenue. Vérifiez votre connexion et réessayez.</string>
     <string name="chat_retry">Réessayer</string>
@@ -50,4 +40,8 @@
     <string name="voice_suggestion_add_to_route">Ajouter à l'itinéraire</string>
     <string name="voice_suggestion_history">Lire l'histoire</string>
     <string name="voice_close">Retour au chat</string>
+    <string name="chat_empty_title">Planifions votre voyage</string>
+    <string name="chat_empty_title_accent">Ensemble</string>
+    <string name="chat_empty_message">Voici Betty, votre explorateur de poche, prêt à créer des parcours sur mesure en quelques secondes.</string>
+    <string name="chat_input_placeholder_empty">Dites à BetterTravel où et combien de temps...</string>
 </resources>

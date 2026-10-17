@@ -3,7 +3,7 @@ package com.bettertravel.presentation.navigation
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import com.badoo.reaktive.subject.behavior.BehaviorObservable
-import com.bettertravel.presentation.discover.DiscoverViewModel
+import com.bettertravel.presentation.aichat.AIChatViewModel
 import com.bettertravel.presentation.memories.MemoriesViewModel
 import com.bettertravel.presentation.route.RouteViewModel
 
@@ -34,7 +34,7 @@ interface MainComponent {
         val tab: MainTab
 
         class Discover(
-            val viewModel: DiscoverViewModel,
+            val viewModel: AIChatViewModel,
         ) : Child {
             override val tab: MainTab = MainTab.Discover
         }

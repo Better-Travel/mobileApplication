@@ -8,7 +8,6 @@ import com.badoo.reaktive.observable.observableOf
 import com.badoo.reaktive.subject.behavior.BehaviorObservable
 import com.badoo.reaktive.subject.behavior.BehaviorSubject
 import com.bettertravel.domain.routes.Route
-import com.bettertravel.presentation.discover.DiscoverViewModel
 import com.bettertravel.presentation.memories.MemoriesViewModel
 import com.bettertravel.presentation.navigation.MainComponent
 import com.bettertravel.presentation.navigation.MainTab
@@ -37,16 +36,6 @@ internal class PreviewRoutesListViewModel : RoutesListViewModel {
     }
 }
 
-internal class PreviewDiscoverViewModel : DiscoverViewModel {
-    override val titlePrefix: String = "Let's plan your trip"
-    override val titleAccent: String = "Together"
-    override val subtitle: String = "Meet Betty, your pocket-sized explorer ready to curate custom journeys in seconds."
-    override val inputPlaceholder: String = "Tell BetterTravel where & how long..."
-
-    override fun openChat() {
-    }
-}
-
 internal class PreviewRouteViewModel : RouteViewModel {
     override val title: String = "Route"
     override val emptyMessage: String = "Your route will appear here once Betty has planned it."
@@ -64,7 +53,7 @@ internal class PreviewMainComponent : MainComponent {
         MutableValue(
             ChildStack(
                 configuration = "discover",
-                instance = MainComponent.Child.Discover(PreviewDiscoverViewModel()),
+                instance = MainComponent.Child.Discover(PreviewAIChat.viewModel(withMessages = false)),
             ),
         )
     override val isDrawerOpen: BehaviorObservable<Boolean> = BehaviorSubject(false)

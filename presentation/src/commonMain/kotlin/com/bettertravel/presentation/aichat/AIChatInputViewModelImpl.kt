@@ -18,7 +18,11 @@ class AIChatInputViewModelImpl(
     private val strings: StringRepository = Deps.instance()
     private val textSubject = BehaviorSubject("")
 
-    override val placeholder: String = strings.chatInputPlaceholder
+    override val placeholder: Observable<String> =
+        parameters.hasMessages
+            .map { hasMessages -> if (hasMessages) strings.chatInputPlaceholder else strings.chatInputPlaceholderEmpty }
+            .distinctUntilChanged()
+            .shareReplayLatestUntil(closed)
     override val text: BehaviorObservable<String> = textSubject
     override val canSend: Observable<Boolean> =
         combineLatest(textSubject, parameters.isSending) { value, isSending ->

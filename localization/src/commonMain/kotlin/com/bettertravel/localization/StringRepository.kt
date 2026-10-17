@@ -10,25 +10,15 @@ interface StringRepository {
     val tabDiscover: String
     val tabRoute: String
     val tabMemories: String
-    val discoverTitlePrefix: String
-    val discoverTitleAccent: String
-    val discoverSubtitle: String
-    val discoverInputPlaceholder: String
     val chatTitle: String
-    val chatStatus: String
     val routeTitle: String
     val routeEmptyMessage: String
     val memoriesTitle: String
     val memoriesEmptyMessage: String
     val drawerTitle: String
     val drawerMessage: String
-    val chatEmptyMessage: String
     val chatInputPlaceholder: String
     val chatDateToday: String
-    val chatEmptyTitle: String
-    val chatEmptySuggestionPlan: String
-    val chatEmptySuggestionCafe: String
-    val chatEmptySuggestionScenic: String
     val chatErrorTitle: String
     val chatErrorMessage: String
     val chatRetry: String
@@ -52,6 +42,10 @@ interface StringRepository {
     val voiceSuggestionAddToRoute: String
     val voiceSuggestionHistory: String
     val voiceClose: String
+    val chatEmptyTitle: String
+    val chatEmptyTitleAccent: String
+    val chatEmptyMessage: String
+    val chatInputPlaceholderEmpty: String
 }
 
 class GeneratedStringRepository(
@@ -121,51 +115,11 @@ class GeneratedStringRepository(
             }
         }
 
-    override val discoverTitlePrefix: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Planifions votre voyage"
-                else -> "Let's plan your trip"
-            }
-        }
-
-    override val discoverTitleAccent: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Ensemble"
-                else -> "Together"
-            }
-        }
-
-    override val discoverSubtitle: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Voici Betty, votre explorateur de poche, prêt à créer des parcours sur mesure en quelques secondes."
-                else -> "Meet Betty, your pocket-sized explorer ready to curate custom journeys in seconds."
-            }
-        }
-
-    override val discoverInputPlaceholder: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Dites à BetterTravel où et combien de temps..."
-                else -> "Tell BetterTravel where & how long..."
-            }
-        }
-
     override val chatTitle: String
         get() {
             return when (languageCode()) {
                 "fr" -> "BetterTravel"
                 else -> "BetterTravel"
-            }
-        }
-
-    override val chatStatus: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "avec Betty"
-                else -> "with Betty"
             }
         }
 
@@ -217,14 +171,6 @@ class GeneratedStringRepository(
             }
         }
 
-    override val chatEmptyMessage: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Dites à Betty où vous êtes et combien de temps vous avez, elle planifiera une balade pour vous."
-                else -> "Tell Betty where you are and how long you have, and she will plan a walk for you."
-            }
-        }
-
     override val chatInputPlaceholder: String
         get() {
             return when (languageCode()) {
@@ -238,38 +184,6 @@ class GeneratedStringRepository(
             return when (languageCode()) {
                 "fr" -> "Aujourd'hui"
                 else -> "Today"
-            }
-        }
-
-    override val chatEmptyTitle: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Demandez n'importe quoi à Betty"
-                else -> "Ask Betty anything"
-            }
-        }
-
-    override val chatEmptySuggestionPlan: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Planifier 3 heures à Varsovie"
-                else -> "Plan 3 hours in Warsaw"
-            }
-        }
-
-    override val chatEmptySuggestionCafe: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Trouver un café tranquille à proximité"
-                else -> "Find a quiet café nearby"
-            }
-        }
-
-    override val chatEmptySuggestionScenic: String
-        get() {
-            return when (languageCode()) {
-                "fr" -> "Balade pittoresque avec sites historiques"
-                else -> "Scenic walk with historic spots"
             }
         }
 
@@ -454,6 +368,38 @@ class GeneratedStringRepository(
             return when (languageCode()) {
                 "fr" -> "Retour au chat"
                 else -> "Back to chat"
+            }
+        }
+
+    override val chatEmptyTitle: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Planifions votre voyage"
+                else -> "Let's plan your trip"
+            }
+        }
+
+    override val chatEmptyTitleAccent: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Ensemble"
+                else -> "Together"
+            }
+        }
+
+    override val chatEmptyMessage: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Voici Betty, votre explorateur de poche, prêt à créer des parcours sur mesure en quelques secondes."
+                else -> "Meet Betty, your pocket-sized explorer ready to curate custom journeys in seconds."
+            }
+        }
+
+    override val chatInputPlaceholderEmpty: String
+        get() {
+            return when (languageCode()) {
+                "fr" -> "Dites à BetterTravel où et combien de temps..."
+                else -> "Tell BetterTravel where & how long..."
             }
         }
 }
