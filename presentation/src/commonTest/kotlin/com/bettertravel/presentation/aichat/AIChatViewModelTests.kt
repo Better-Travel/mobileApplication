@@ -243,4 +243,20 @@ class AIChatViewModelTests {
         assertEquals(listOf("You", "Betty"), transcript.map { it.speaker })
         assertEquals("About 300 meters", transcript.last().text)
     }
+
+    @Test
+    fun testThat_chatIsOpened_scrollPositionStartsAtTheTop() {
+        val viewModel = createViewModel()
+
+        assertEquals(AIChatScrollPosition(index = 0, offset = 0), viewModel.scrollPosition)
+    }
+
+    @Test
+    fun testThat_listIsScrolled_positionIsStoredForRestoring() {
+        val viewModel = createViewModel()
+
+        viewModel.onScrollPositionChanged(AIChatScrollPosition(index = 4, offset = 120))
+
+        assertEquals(AIChatScrollPosition(index = 4, offset = 120), viewModel.scrollPosition)
+    }
 }

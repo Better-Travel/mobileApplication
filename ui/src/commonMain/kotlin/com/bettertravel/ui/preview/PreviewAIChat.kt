@@ -8,6 +8,7 @@ import com.bettertravel.presentation.aichat.AIAssistantMessageViewModel
 import com.bettertravel.presentation.aichat.AIAssistantMessageViewModelImpl
 import com.bettertravel.presentation.aichat.AIChatInputViewModel
 import com.bettertravel.presentation.aichat.AIChatMode
+import com.bettertravel.presentation.aichat.AIChatScrollPosition
 import com.bettertravel.presentation.aichat.AIChatStubViewModel
 import com.bettertravel.presentation.aichat.AIChatStubViewModelImpl
 import com.bettertravel.presentation.aichat.AIChatViewModel
@@ -163,6 +164,10 @@ private class PreviewAIChatViewModel(
     override val stub: Observable<AIChatStubViewModel?> =
         observableOf(if (withMessages) null else PreviewAIChat.emptyStub())
     override val mode: BehaviorObservable<AIChatMode> = BehaviorSubject(initialMode)
+    override val scrollPosition: AIChatScrollPosition = AIChatScrollPosition(index = 0, offset = 0)
     override val inputViewModel: AIChatInputViewModel = PreviewInputViewModel()
     override val voiceViewModel: AIVoiceViewModel = PreviewVoiceViewModel(withTranscript = withMessages)
+
+    override fun onScrollPositionChanged(position: AIChatScrollPosition) {
+    }
 }

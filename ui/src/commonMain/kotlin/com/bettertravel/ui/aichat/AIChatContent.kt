@@ -13,9 +13,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.bettertravel.presentation.aichat.AIChatScrollPosition
 import com.bettertravel.presentation.aichat.AIChatViewModel
 import com.bettertravel.ui.designsystem.atoms.BtTypingIndicator
 import com.bettertravel.ui.designsystem.layout.isKeyboardVisible
@@ -40,14 +45,28 @@ fun AIChatContent(
     val inputText by viewModel.inputViewModel.text.collectAsStateImmediately()
     val canSend by viewModel.inputViewModel.canSend.collectAsState(initial = false)
     val placeholder by viewModel.inputViewModel.placeholder.collectAsState(initial = "")
-    val listState = rememberLazyListState()
+    val savedPosition = viewModel.scrollPosition
+    val listState =
+        rememberLazyListState(
+            initialFirstVisibleItemIndex = savedPosition.index,
+            initialFirstVisibleItemScrollOffset = savedPosition.offset,
+        )
     val keyboardVisible = isKeyboardVisible()
+    var knownItemCount by remember { mutableIntStateOf(items.size) }
+
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset }
+            .collect { (index, offset) ->
+                viewModel.onScrollPositionChanged(AIChatScrollPosition(index = index, offset = offset))
+            }
+    }
 
     LaunchedEffect(items.size, loading) {
-        val count = listState.layoutInfo.totalItemsCount
-        if (count > 0) {
-            listState.animateScrollToItem(count - 1)
+        val lastIndex = items.size + (if (loading) 1 else 0) - 1
+        if (lastIndex >= 0 && (items.size > knownItemCount || loading)) {
+            listState.animateScrollToItem(lastIndex)
         }
+        knownItemCount = items.size
     }
 
     val pillBottom = if (keyboardVisible) BtSpacing.m else BtSpacing.tabBarInset

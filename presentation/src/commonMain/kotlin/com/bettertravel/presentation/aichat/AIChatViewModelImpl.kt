@@ -30,6 +30,9 @@ class AIChatViewModelImpl(
     private val messages = mutableListOf<ChatMessage>()
     private var messageCounter = 0
 
+    override var scrollPosition: AIChatScrollPosition = AIChatScrollPosition(index = 0, offset = 0)
+        private set
+
     private val itemsSubject = BehaviorSubject<List<AIChatViewModel.Item>>(emptyList())
     private val loadingSubject = BehaviorSubject(false)
     private val stubSubject = BehaviorSubject<AIChatStubViewModel?>(null)
@@ -71,6 +74,10 @@ class AIChatViewModelImpl(
             .subscribe(onNext = { active -> loadingSubject.onNext(active) })
             .disposeWhenClosed()
         showEmptyStub()
+    }
+
+    override fun onScrollPositionChanged(position: AIChatScrollPosition) {
+        scrollPosition = position
     }
 
     private fun openVoice() {

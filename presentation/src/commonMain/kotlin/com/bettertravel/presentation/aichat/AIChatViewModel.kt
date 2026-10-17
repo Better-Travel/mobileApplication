@@ -5,6 +5,11 @@ import com.badoo.reaktive.subject.behavior.BehaviorObservable
 import com.bettertravel.presentation.ViewModel
 import com.bettertravel.presentation.ViewModelContext
 
+data class AIChatScrollPosition(
+    val index: Int,
+    val offset: Int,
+)
+
 enum class AIChatMode {
     Text,
     Voice,
@@ -17,8 +22,11 @@ interface AIChatViewModel : ViewModel {
     val stub: Observable<AIChatStubViewModel?>
     val mode: BehaviorObservable<AIChatMode>
 
+    val scrollPosition: AIChatScrollPosition
     val inputViewModel: AIChatInputViewModel
     val voiceViewModel: AIVoiceViewModel
+
+    fun onScrollPositionChanged(position: AIChatScrollPosition)
 
     sealed interface Item {
         val id: String
