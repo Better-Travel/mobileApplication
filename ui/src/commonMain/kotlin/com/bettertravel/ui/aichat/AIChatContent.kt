@@ -2,6 +2,7 @@ package com.bettertravel.ui.aichat
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import com.bettertravel.presentation.aichat.AIChatScrollPosition
 import com.bettertravel.presentation.aichat.AIChatViewModel
@@ -45,6 +48,7 @@ fun AIChatContent(
     val inputText by viewModel.inputViewModel.text.collectAsStateImmediately()
     val canSend by viewModel.inputViewModel.canSend.collectAsState(initial = false)
     val placeholder by viewModel.inputViewModel.placeholder.collectAsState(initial = "")
+    val suggestions by viewModel.inputViewModel.suggestions.collectAsState()
     val savedPosition = viewModel.scrollPosition
     val listState =
         rememberLazyListState(
@@ -70,7 +74,9 @@ fun AIChatContent(
     }
 
     val pillBottom = if (keyboardVisible) BtSpacing.m else BtSpacing.tabBarInset
-    val contentBottom = pillBottom + BtSpacing.inputPillHeight + BtSpacing.m
+    val density = LocalDensity.current
+    var bottomBarHeight by remember { mutableIntStateOf(0) }
+    val contentBottom = pillBottom + with(density) { bottomBarHeight.toDp() } + BtSpacing.m
 
     Box(modifier = modifier.fillMaxSize()) {
         val currentStub = stub
@@ -101,21 +107,27 @@ fun AIChatContent(
                 }
             }
         }
-        BtInputPill(
-            value = inputText,
-            onValueChange = { text -> viewModel.inputViewModel.onTextChanged(text) },
-            placeholder = placeholder,
-            onSend = { viewModel.inputViewModel.send() },
-            onVoice = { viewModel.inputViewModel.startVoice() },
-            // TODO: attachments are not supported yet
-            onAdd = { },
-            canSend = canSend,
-            voiceModifier = LocalMicModifier.current,
+        Column(
             modifier =
                 Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(start = BtSpacing.l, end = BtSpacing.l, bottom = pillBottom),
-        )
+                    .padding(start = BtSpacing.l, end = BtSpacing.l, bottom = pillBottom)
+                    .onSizeChanged { size -> bottomBarHeight = size.height },
+            verticalArrangement = Arrangement.spacedBy(BtSpacing.s),
+        ) {
+            suggestions?.let { quickReplies -> AIQuickReplies(quickReplies) }
+            BtInputPill(
+                value = inputText,
+                onValueChange = { text -> viewModel.inputViewModel.onTextChanged(text) },
+                placeholder = placeholder,
+                onSend = { viewModel.inputViewModel.send() },
+                onVoice = { viewModel.inputViewModel.startVoice() },
+                // TODO: attachments are not supported yet
+                onAdd = { },
+                canSend = canSend,
+                voiceModifier = LocalMicModifier.current,
+            )
+        }
     }
 }
 

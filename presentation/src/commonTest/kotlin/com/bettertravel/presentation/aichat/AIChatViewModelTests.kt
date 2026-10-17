@@ -160,7 +160,7 @@ class AIChatViewModelTests {
     }
 
     @Test
-    fun testThat_replyHasRoute_routeCardAndQuickRepliesAreListed() {
+    fun testThat_replyHasRoute_routeCardIsListedAndSuggestionsAreAttachedToTheInput() {
         chatting.result = Result.success(ChatReply(text = "Here is a loop", route = route))
         val viewModel = createViewModel()
 
@@ -171,7 +171,37 @@ class AIChatViewModelTests {
         assertEquals("Old Town & Courtyards", card.title)
         assertEquals("2h 45m • 3.2 km", card.duration)
         assertEquals(2, card.stops.size)
-        assertTrue(viewModel.items.value.last() is AIChatViewModel.Item.QuickReplies)
+        assertTrue(
+            viewModel.items.value.none {
+                it !is AIChatViewModel.Item.DateDivider &&
+                    it !is AIChatViewModel.Item.UserMessage &&
+                    it !is AIChatViewModel.Item.AssistantMessage
+            },
+        )
+        val suggestions = assertNotNull(viewModel.inputViewModel.suggestions.value)
+        assertEquals(listOf("Make it shorter", "Add a café stop", "Avoid stairs"), suggestions.replies)
+    }
+
+    @Test
+    fun testThat_replyHasNoRoute_noSuggestionsAreShown() {
+        chatting.result = Result.success(ChatReply(text = "Just a tip"))
+        val viewModel = createViewModel()
+
+        viewModel.send("Coffee?")
+
+        assertNull(viewModel.inputViewModel.suggestions.value)
+    }
+
+    @Test
+    fun testThat_newMessageIsSent_suggestionsAreCleared() {
+        chatting.result = Result.success(ChatReply(text = "Here is a loop", route = route))
+        val viewModel = createViewModel()
+        viewModel.send("Plan a walk")
+        chatting.result = Result.success(ChatReply(text = "Just a tip"))
+
+        viewModel.send("Coffee?")
+
+        assertNull(viewModel.inputViewModel.suggestions.value)
     }
 
     @Test
@@ -179,9 +209,9 @@ class AIChatViewModelTests {
         chatting.result = Result.success(ChatReply(text = "Here is a loop", route = route))
         val viewModel = createViewModel()
         viewModel.send("Plan a walk")
-        val quickReplies = viewModel.items.value.last() as AIChatViewModel.Item.QuickReplies
+        val suggestions = assertNotNull(viewModel.inputViewModel.suggestions.value)
 
-        quickReplies.viewModel.select("Make it shorter")
+        suggestions.select("Make it shorter")
 
         val userTexts =
             viewModel.items.value

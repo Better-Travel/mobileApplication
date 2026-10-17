@@ -62,7 +62,6 @@ internal object PreviewAIChat {
             AIChatViewModel.Item.DateDivider("divider", "Today"),
             AIChatViewModel.Item.UserMessage("user-1", userMessage()),
             AIChatViewModel.Item.AssistantMessage("assistant-1", assistantMessage(withRoute = true)),
-            AIChatViewModel.Item.QuickReplies("quick-replies", quickReplies()),
         )
     }
 
@@ -102,6 +101,8 @@ private class PreviewInputViewModel : AIChatInputViewModel {
     override val placeholder: Observable<String> = observableOf("Tell BetterTravel where & how long...")
     override val text: BehaviorObservable<String> = BehaviorSubject("")
     override val canSend: Observable<Boolean> = observableOf(true)
+    override val suggestions: BehaviorObservable<AIQuickRepliesViewModel?> =
+        BehaviorSubject(PreviewAIChat.quickReplies())
 
     override fun onTextChanged(text: String) {
     }

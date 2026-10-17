@@ -45,11 +45,6 @@ interface AIChatViewModel : ViewModel {
             override val id: String,
             val viewModel: AIAssistantMessageViewModel,
         ) : Item
-
-        data class QuickReplies(
-            override val id: String,
-            val viewModel: AIQuickRepliesViewModel,
-        ) : Item
     }
 
     data class Parameters(

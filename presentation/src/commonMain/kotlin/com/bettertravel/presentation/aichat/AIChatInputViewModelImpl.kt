@@ -24,6 +24,7 @@ class AIChatInputViewModelImpl(
             .distinctUntilChanged()
             .shareReplayLatestUntil(closed)
     override val text: BehaviorObservable<String> = textSubject
+    override val suggestions: BehaviorObservable<AIQuickRepliesViewModel?> = parameters.suggestions
     override val canSend: Observable<Boolean> =
         combineLatest(textSubject, parameters.isSending) { value, isSending ->
             value.isNotBlank() && !isSending

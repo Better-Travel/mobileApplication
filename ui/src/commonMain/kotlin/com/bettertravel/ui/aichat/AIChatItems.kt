@@ -31,7 +31,6 @@ fun AIChatItem(
         is AIChatViewModel.Item.DateDivider -> BtDateDivider(text = item.title, modifier = modifier)
         is AIChatViewModel.Item.UserMessage -> AIUserMessage(item.viewModel, modifier)
         is AIChatViewModel.Item.AssistantMessage -> AIAssistantMessage(item.viewModel, modifier)
-        is AIChatViewModel.Item.QuickReplies -> AIQuickReplies(item.viewModel, modifier)
     }
 }
 

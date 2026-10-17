@@ -9,6 +9,7 @@ interface AIChatInputViewModel : ViewModel {
     val placeholder: Observable<String>
     val text: BehaviorObservable<String>
     val canSend: Observable<Boolean>
+    val suggestions: BehaviorObservable<AIQuickRepliesViewModel?>
 
     fun onTextChanged(text: String)
 
@@ -20,6 +21,7 @@ interface AIChatInputViewModel : ViewModel {
         val context: ViewModelContext,
         val isSending: Observable<Boolean>,
         val hasMessages: Observable<Boolean>,
+        val suggestions: BehaviorObservable<AIQuickRepliesViewModel?>,
         val onSend: (String) -> Unit,
         val onVoice: () -> Unit,
     )

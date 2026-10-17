@@ -36,6 +36,7 @@ class AIChatViewModelImpl(
     private val itemsSubject = BehaviorSubject<List<AIChatViewModel.Item>>(emptyList())
     private val loadingSubject = BehaviorSubject(false)
     private val stubSubject = BehaviorSubject<AIChatStubViewModel?>(null)
+    private val suggestionsSubject = BehaviorSubject<AIQuickRepliesViewModel?>(null)
     private val modeSubject = BehaviorSubject(AIChatMode.Text)
     private val transcriptSubject = BehaviorSubject<List<AIVoiceEntry>>(emptyList())
 
@@ -53,6 +54,7 @@ class AIChatViewModelImpl(
                 context = parameters.context,
                 isSending = loadingSubject,
                 hasMessages = itemsSubject.map { items -> items.isNotEmpty() },
+                suggestions = suggestionsSubject,
                 onSend = { text -> send(text) },
                 onVoice = { openVoice() },
             ),
@@ -97,6 +99,7 @@ class AIChatViewModelImpl(
         }
         messages.add(createMessage(ChatAuthor.User, text, null))
         stubSubject.onNext(null)
+        suggestionsSubject.onNext(null)
         refresh()
         requestReply()
     }
@@ -131,6 +134,7 @@ class AIChatViewModelImpl(
 
     private fun refresh() {
         itemsSubject.onNext(buildItems())
+        suggestionsSubject.onNext(buildSuggestions())
         transcriptSubject.onNext(buildTranscript())
     }
 
@@ -167,26 +171,24 @@ class AIChatViewModelImpl(
                 }
             }
         }
-        val last = messages.last()
-        if (last.author == ChatAuthor.Assistant && last.route != null) {
-            result.add(
-                AIChatViewModel.Item.QuickReplies(
-                    id = "quick-replies-${last.id}",
-                    viewModel =
-                        AIQuickRepliesViewModelImpl(
-                            title = strings.chatQuickRepliesTitle,
-                            replies =
-                                listOf(
-                                    strings.chatQuickReplyShorter,
-                                    strings.chatQuickReplyCafe,
-                                    strings.chatQuickReplyStairs,
-                                ),
-                            onSelect = { reply -> send(reply) },
-                        ),
-                ),
-            )
-        }
         return result
+    }
+
+    private fun buildSuggestions(): AIQuickRepliesViewModel? {
+        val last = messages.lastOrNull() ?: return null
+        if (last.author != ChatAuthor.Assistant || last.route == null) {
+            return null
+        }
+        return AIQuickRepliesViewModelImpl(
+            title = strings.chatQuickRepliesTitle,
+            replies =
+                listOf(
+                    strings.chatQuickReplyShorter,
+                    strings.chatQuickReplyCafe,
+                    strings.chatQuickReplyStairs,
+                ),
+            onSelect = { reply -> send(reply) },
+        )
     }
 
     private fun buildTranscript(): List<AIVoiceEntry> {

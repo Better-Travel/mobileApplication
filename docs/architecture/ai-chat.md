@@ -32,13 +32,13 @@ interface AIChatViewModel : ViewModel {
     val mode: BehaviorObservable<AIChatMode>      // Text or Voice
     val inputViewModel: AIChatInputViewModel
     val voiceViewModel: AIVoiceViewModel
-    sealed interface Item { DateDivider, UserMessage, AssistantMessage, QuickReplies }
+    sealed interface Item { DateDivider, UserMessage, AssistantMessage }
 }
 ```
 
-- `AIChatInputViewModel`: `placeholder` (observable: "Tell BetterTravel where & how long..." until the first message, then "Ask Betty anything or adjust route..."), `text`, `canSend` (non-blank and not waiting for a reply), `onTextChanged`, `send`, `startVoice`.
+- `AIChatInputViewModel`: `placeholder` (observable: "Tell BetterTravel where & how long..." until the first message, then "Ask Betty anything or adjust route..."), `text`, `suggestions` (the "Suggested adjustments" chips, shown after a reply with a route and cleared on the next message), `canSend` (non-blank and not waiting for a reply), `onTextChanged`, `send`, `startVoice`.
 - `AIUserMessageViewModel`, `AIAssistantMessageViewModel` (with optional `AIRouteCardViewModel`),
-  `AIQuickRepliesViewModel`: plain view data plus actions.
+  `AIQuickRepliesViewModel` (the suggestions): plain view data plus actions.
 - `AIChatStubViewModel`: empty state (`title` + `accentTitle` + `message`, shown as the Discover landing) and error state (retry action).
 - `AIVoiceViewModel`: `isListening`, `statusText`, `transcript`, `suggestions`, `toggleListening`, `select`, `close`.
 
@@ -60,3 +60,16 @@ suggestion chips send their phrase through the same chat pipeline, so voice mode
 - Wire "Preview on map" and "Start walk" (`TODO` in `DefaultRootComponent`) once the Route screen exists.
 - Real speech input and output per platform (`expect/actual` in `common` or platform modules).
 - Persist conversations if needed (the `database` module is available).
+
+## Suggestions
+
+The suggestion chips belong to the input, not to the conversation: they are exposed by `AIChatInputViewModel.suggestions`
+and rendered in the floating area above the input pill, outside the scrolling list. The chips wrap onto several lines
+instead of scrolling horizontally. The list measures the height of that floating area and pads its bottom accordingly,
+so messages scroll underneath it.
+
+## Scroll position
+
+`AIChatViewModel.scrollPosition` stores the list's first visible item and offset. The list restores it when the tab is
+shown again and only scrolls to the bottom when a new message arrives. It lives in memory, so it survives tab switches and
+rotation but not an app restart.
